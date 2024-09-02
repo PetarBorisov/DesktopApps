@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.flower_shop.FXMLDocumentController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0">
          <children>
             <AnchorPane layoutY="-1.0" prefHeight="447.0" prefWidth="338.0" styleClass="left-form" stylesheets="@../css/LoginDesign.css">
                <children>
@@ -27,10 +27,10 @@
                         <Font name="Arial Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="53.0" layoutY="198.0" prefHeight="30.0" prefWidth="220.0" promptText="Username" styleClass="text-field" stylesheets="@../css/LoginDesign.css" />
-                  <PasswordField layoutX="53.0" layoutY="239.0" prefHeight="30.0" prefWidth="220.0" promptText="Password" styleClass="text-field" stylesheets="@../css/LoginDesign.css" />
-                  <Button layoutX="55.0" layoutY="358.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="220.0" styleClass="login-btn" stylesheets="@../css/LoginDesign.css" text="Login" textFill="#260703" />
-                  <Button layoutX="273.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="42.0" styleClass="close" stylesheets="@../css/LoginDesign.css" text="X" AnchorPane.rightAnchor="10.200000000000045" AnchorPane.topAnchor="14.0" />
+                  <TextField fx:id="username" layoutX="53.0" layoutY="198.0" onAction="#login" prefHeight="30.0" prefWidth="220.0" promptText="Username" styleClass="text-field" stylesheets="@../css/LoginDesign.css" />
+                  <PasswordField fx:id="password" layoutX="53.0" layoutY="239.0" prefHeight="30.0" prefWidth="220.0" promptText="Password" styleClass="text-field" stylesheets="@../css/LoginDesign.css" />
+                  <Button fx:id="loginBtn" layoutX="55.0" layoutY="358.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="220.0" styleClass="login-btn" stylesheets="@../css/LoginDesign.css" text="Login" textFill="#260703" />
+                  <Button fx:id="close" layoutX="273.0" layoutY="14.0" mnemonicParsing="false" onAction="#close" prefHeight="26.0" prefWidth="42.0" styleClass="close" stylesheets="@../css/LoginDesign.css" text="X" AnchorPane.rightAnchor="10.200000000000045" AnchorPane.topAnchor="14.0" />
                </children>
             </AnchorPane>
          </children>
