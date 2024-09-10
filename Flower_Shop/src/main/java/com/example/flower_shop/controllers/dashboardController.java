@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -135,6 +136,15 @@ public class dashboardController implements Initializable {
 
     @FXML
     private Text username;
+
+    public void close(){
+        System.exit(0);
+    }
+
+    public  void minimize() {
+        Stage stage = (Stage) main_form.getScene().getWindow();
+        stage.setIconified(true);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
