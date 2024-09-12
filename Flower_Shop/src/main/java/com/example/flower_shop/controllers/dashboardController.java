@@ -1,15 +1,23 @@
 package com.example.flower_shop.controllers;
 
+import com.example.flower_shop.GetData;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class dashboardController implements Initializable {
@@ -137,6 +145,90 @@ public class dashboardController implements Initializable {
     @FXML
     private Text username;
 
+    public void displayUsername(){
+        String user = GetData.username;
+        username.setText(user.substring(0, 1).toUpperCase() + user.substring(1));
+
+    }
+
+    public void switchForm(ActionEvent event) {
+
+        if (event.getSource() == home_btn) {
+            home_form.setVisible(true);
+            availableFlowers_form.setVisible(false);
+            purchase_form.setVisible(false);
+
+            home_btn.setStyle(" -fx-background-color:linear-gradient(to bottom right, #bb1a3a, #722327);");
+            availableFlowers_btn.setStyle("-fx-background-color: transparent");
+            purchase_btn.setStyle("-fx-background-color: transparent");
+
+        }else if (event.getSource() == availableFlowers_btn) {
+            home_form.setVisible(false);
+            availableFlowers_form.setVisible(true);
+            purchase_form.setVisible(false);
+
+            availableFlowers_btn.setStyle(" -fx-background-color:linear-gradient(to bottom right, #bb1a3a, #722327);");
+            home_btn.setStyle("-fx-background-color: transparent");
+            purchase_btn.setStyle("-fx-background-color: transparent");
+
+        }else if (event.getSource() == purchase_btn) {
+            home_form.setVisible(false);
+            availableFlowers_form.setVisible(false);
+            purchase_form.setVisible(true);
+
+            purchase_btn.setStyle(" -fx-background-color:linear-gradient(to bottom right, #bb1a3a, #722327);");
+            availableFlowers_btn.setStyle("-fx-background-color: transparent");
+            home_btn.setStyle("-fx-background-color: transparent");
+        }
+    }
+    private double x = 0;
+    private double y = 0;
+
+    public void logout(){
+
+        try {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation message");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to logout");
+            Optional<ButtonType> option = alert.showAndWait();
+
+            if (option.get().equals(ButtonType.OK)) {
+
+                logoutBtn.getScene().getWindow().hide();
+
+                Parent root = FXMLLoader.load(getClass().getResource("/fxml/hello-view.fxml"));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+
+                root.setOnMousePressed((MouseEvent event) -> {
+                    x = event.getSceneX();
+                    y = event.getSceneY();
+                });
+
+                root.setOnMouseDragged((MouseEvent event) ->{
+                    stage.setX(event.getScreenX() - x);
+                    stage.setY(event.getScreenY() - y);
+
+                    stage.setOpacity(.8);
+                });
+
+                root.setOnMouseReleased((MouseEvent event) -> {
+                    stage.setOpacity(1);
+                });
+
+                stage.initStyle(StageStyle.TRANSPARENT);
+
+                stage.setScene(scene);
+                stage.show();
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
     public void close(){
         System.exit(0);
     }
@@ -148,6 +240,6 @@ public class dashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+      displayUsername();
     }
 }
