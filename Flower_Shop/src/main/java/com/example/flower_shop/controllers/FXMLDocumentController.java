@@ -2,6 +2,7 @@ package com.example.flower_shop.controllers;
 
 
 import com.example.flower_shop.Database;
+import com.example.flower_shop.GetData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,8 +16,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 import java.net.URL;
@@ -46,6 +49,9 @@ public class FXMLDocumentController implements Initializable {
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet result;
+
+    private double x = 0;
+    private double y = 0;
 
     public void login() {
 
@@ -77,6 +83,8 @@ public class FXMLDocumentController implements Initializable {
                     alert.setContentText("Successfully Login!");
                     alert.showAndWait();
 
+                    GetData.username = username.getText();
+
                     // Затваряне на текущия прозорец и отваряне на новия
                     Stage currentStage = (Stage) loginBtn.getScene().getWindow();
                     currentStage.close();
@@ -84,6 +92,19 @@ public class FXMLDocumentController implements Initializable {
                     Parent root = FXMLLoader.load(getClass().getResource("/fxml/dashboard.fxml"));
                     Stage stage = new Stage();
                     Scene scene = new Scene(root);
+
+                    root.setOnMousePressed((MouseEvent event) ->{
+                        x = event.getSceneX();
+                        y = event.getSceneY();
+                    });
+
+                    root.setOnMouseDragged((MouseEvent event) ->{
+                        stage.setX(event.getScreenX() - x);
+                        stage.setY(event.getScreenY() - y);
+                    });
+
+
+                    stage.initStyle(StageStyle.TRANSPARENT);
 
                     stage.setScene(scene);
                     stage.show();
