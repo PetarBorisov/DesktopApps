@@ -20,7 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.flower_shop.controllers.dashboardController">
    <children>
       <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -30,8 +30,8 @@
                      <children>
                         <AnchorPane layoutX="-15.0" layoutY="6.0" prefHeight="35.0" prefWidth="1100.0" styleClass="top-form" stylesheets="@../css/dashboardDesign.css" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Button fx:id="close" layoutX="1035.0" layoutY="15.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="72.0" styleClass="close" stylesheets="@../css/dashboardDesign.css" />
-                              <Button fx:id="minimize" layoutX="986.0" layoutY="16.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="65.0" styleClass="minimize" stylesheets="@../css/dashboardDesign.css" text="-" />
+                              <Button fx:id="close" layoutX="1035.0" layoutY="15.0" mnemonicParsing="false" onAction="#close" prefHeight="34.0" prefWidth="72.0" styleClass="close" stylesheets="@../css/dashboardDesign.css" />
+                              <Button fx:id="minimize" layoutX="986.0" layoutY="16.0" mnemonicParsing="false" onAction="#minimize" prefHeight="31.0" prefWidth="65.0" styleClass="minimize" stylesheets="@../css/dashboardDesign.css" text="-" />
                               <FontAwesomeIcon glyphName="LEAF" layoutX="36.0" layoutY="29.0" />
                               <FontAwesomeIcon glyphName="CLOSE" layoutX="1065.0" layoutY="34.0" size="1.5em" />
                               <FontAwesomeIcon glyphName="MINUS" layoutX="1011.0" layoutY="37.0" size="1.5em" />
@@ -57,14 +57,14 @@
                            </font>
                         </Text>
                         <Line endX="92.19999694824219" layoutX="100.0" layoutY="173.0" startX="-93.40000915527344" stroke="#fffafa" />
-                        <Button fx:id="home_btn" layoutX="10.0" layoutY="195.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboardDesign.css" text="Home" />
+                        <Button fx:id="home_btn" layoutX="10.0" layoutY="195.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboardDesign.css" text="Home" />
                         <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="70.0" layoutY="91.0" size="6em" text="" wrappingWidth="57.600006103515625" />
                         <FontAwesomeIcon fill="#6e9105" glyphName="HOME" layoutX="147.0" layoutY="222.0" size="1.5em" />
-                        <Button fx:id="availableFlowers_btn" layoutX="10.0" layoutY="241.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboardDesign.css" text="AviliableFlowers" />
+                        <Button fx:id="availableFlowers_btn" layoutX="10.0" layoutY="241.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboardDesign.css" text="AviliableFlowers" />
                         <FontAwesomeIcon fill="#6e9105" glyphName="CHECK_CIRCLE" layoutX="147.0" layoutY="268.0" size="1.5em" />
-                        <Button fx:id="purchase_btn" layoutX="10.0" layoutY="287.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboardDesign.css" text="Purchase" />
+                        <Button fx:id="purchase_btn" layoutX="10.0" layoutY="287.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboardDesign.css" text="Purchase" />
                         <FontAwesomeIcon fill="#6e9105" glyphName="SHOPPING_CART" layoutX="146.0" layoutY="314.0" size="1.5em" />
-                        <Button fx:id="logoutBtn" layoutX="14.0" layoutY="493.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="34.0" stylesheets="@../css/dashboardDesign.css">
+                        <Button fx:id="logoutBtn" layoutX="14.0" layoutY="493.0" mnemonicParsing="false" onAction="#logout" prefHeight="32.0" prefWidth="34.0" stylesheets="@../css/dashboardDesign.css">
                            <styleClass>
                               <String fx:value="logout" />
                               <String fx:value="shadow" />
@@ -81,7 +81,7 @@
                <center>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane fx:id="home_form" layoutX="159.0" layoutY="160.0" prefHeight="537.6" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="home_form" layoutX="159.0" layoutY="160.0" prefHeight="537.6" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="166.0" prefWidth="878.0" stylesheets="@../css/dashboardDesign.css">
                                  <styleClass>
@@ -154,7 +154,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="availableFlowers_form" layoutX="77.0" layoutY="102.0" prefHeight="537.6" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="availableFlowers_form" layoutX="77.0" layoutY="102.0" prefHeight="537.6" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="13.0" prefHeight="510.0" prefWidth="200.0" stylesheets="@../css/dashboardDesign.css">
                                  <styleClass>
