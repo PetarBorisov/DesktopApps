@@ -1,6 +1,10 @@
 package com.example.flower_shop.controllers;
 
+import com.example.flower_shop.Database;
+import com.example.flower_shop.FlowersData;
 import com.example.flower_shop.GetData;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.net.URL;
+import java.sql.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -144,6 +149,42 @@ public class dashboardController implements Initializable {
 
     @FXML
     private Text username;
+
+    private Connection connect;
+    private PreparedStatement prepare;
+    private Statement statement;
+    private ResultSet result;
+
+    public ObservableList<FlowersData> availableFlowerListData() {
+        ObservableList<FlowersData> listData = FXCollections.observableArrayList() ;
+
+            String sql = "SELECT * FROM flowers";
+
+            connect = Database.connectDb();
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            FlowersData flower;
+
+            while (result.next()) {
+                flower = new FlowersData(
+                        result.getInt("flowerId"),
+                        result.getString("name"),
+                        result.getString("status"),
+                        result.getDouble("price"),
+                        result.getDate("flowerDate"),
+                        result.getString("image")
+                );
+                listData.add(flower);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listData;
+
+    }
 
     public void displayUsername(){
         String user = GetData.username;
