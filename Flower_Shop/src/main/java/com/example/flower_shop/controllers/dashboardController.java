@@ -13,13 +13,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.net.URL;
 import java.sql.*;
 import java.util.Optional;
@@ -43,16 +47,16 @@ public class dashboardController implements Initializable {
     private Button aviailableFlowers_clearBtn;
 
     @FXML
-    private TableColumn<?, ?> aviailableFlowers_col_flowerId;
+    private TableColumn<FlowersData, String> aviailableFlowers_col_flowerId;
 
     @FXML
-    private TableColumn<?, ?> aviailableFlowers_col_flowerName;
+    private TableColumn<FlowersData, String> aviailableFlowers_col_flowerName;
 
     @FXML
-    private TableColumn<?, ?> aviailableFlowers_col_price;
+    private TableColumn<FlowersData, String> aviailableFlowers_col_price;
 
     @FXML
-    private TableColumn<?, ?> aviailableFlowers_col_status;
+    private TableColumn<FlowersData, String> aviailableFlowers_col_status;
 
     @FXML
     private Button aviailableFlowers_deleteBtn;
@@ -79,7 +83,7 @@ public class dashboardController implements Initializable {
     private ComboBox<?> aviailableFlowers_status;
 
     @FXML
-    private TableView<?> aviailableFlowers_tableView;
+    private TableView<FlowersData> aviailableFlowers_tableView;
 
     @FXML
     private Button aviailableFlowers_updateBtn;
@@ -155,6 +159,83 @@ public class dashboardController implements Initializable {
     private Statement statement;
     private ResultSet result;
 
+    private Image image;
+
+    public void availableFlowersAdd() {
+
+        String sql = "INSERT INTO flowers (flowerId, name, status, price, image, date)"
+                + "VALUES(?,?,?,?,?,?)";
+
+        connect = Database.connectDb();
+
+
+        try {
+
+            Alert alert;
+
+            if (aviailableFlowers_flowerID.getText().isEmpty()
+                    || aviailableFlowers_flowerName.getText().isEmpty()
+                    || aviailableFlowers_status.getSelectionModel().getSelectedItem() == null
+                    || aviailableFlowers_price.getText().isEmpty()
+                    || GetData.path == null || GetData.path == "") {
+
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill all blank fields");
+                alert.showAndWait();
+            }else {
+
+                String checkData = "SELECT flowerId FROM flowerId = '"
+                + aviailableFlowers_flowerID.getText().isEmpty() +"'";
+
+                statement = connect.createStatement();
+
+                prepare = connect.prepareStatement(sql);
+                prepare.setString(1, aviailableFlowers_flowerID.getText());
+                prepare.setString(2, aviailableFlowers_flowerName.getText());
+                prepare.setString(3, (String) aviailableFlowers_status.getSelectionModel().getSelectedItem());
+                prepare.setString(4, aviailableFlowers_price.getText());
+
+                String uri = GetData.path;
+                uri = uri.replace("\\", "\\\\");
+                prepare.setString(5, uri);
+
+                java.util.Date date = new java.util.Date();
+                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
+                prepare.setString(6, String.valueOf(sqlDate));
+            }
+
+
+
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void availableFlowersInsertImage() {
+
+        FileChooser open = new FileChooser();
+        open.setTitle("Open image File");
+        open.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image File", "*jpg", "*png"));
+
+        File file = open.showOpenDialog(main_form.getScene().getWindow());
+
+        if (file != null) {
+
+            GetData.path = file.getAbsolutePath();
+
+            image = new Image(file.toURI().toString(), 129, 174, false, true);
+            aviailableFlowers_imageView.setImage(image);
+
+        }
+    }
+
     public ObservableList<FlowersData> availableFlowerListData() {
         ObservableList<FlowersData> listData = FXCollections.observableArrayList() ;
 
@@ -173,8 +254,8 @@ public class dashboardController implements Initializable {
                         result.getString("name"),
                         result.getString("status"),
                         result.getDouble("price"),
-                        result.getDate("flowerDate"),
-                        result.getString("image")
+                        result.getString("image"),
+                        result.getDate("date")
                 );
                 listData.add(flower);
             }
@@ -183,7 +264,17 @@ public class dashboardController implements Initializable {
             e.printStackTrace();
         }
         return listData;
+    }
+    private ObservableList<FlowersData> availableFlowerList;
+    public void availableFlowerShowListData() {
+        availableFlowerList = availableFlowerListData();
 
+        aviailableFlowers_col_flowerId.setCellValueFactory(new PropertyValueFactory<>("flowerId"));
+        aviailableFlowers_col_flowerName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        aviailableFlowers_col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        aviailableFlowers_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        aviailableFlowers_tableView.setItems(availableFlowerList);
     }
 
     public void displayUsername(){
@@ -211,6 +302,9 @@ public class dashboardController implements Initializable {
             availableFlowers_btn.setStyle(" -fx-background-color:linear-gradient(to bottom right, #bb1a3a, #722327);");
             home_btn.setStyle("-fx-background-color: transparent");
             purchase_btn.setStyle("-fx-background-color: transparent");
+
+            //TO SHOW THE UPDATED TABLEVIEW ONCE YOU CLICKED THE AVAILABLE FLOWERS BUTTON
+            availableFlowerShowListData();
 
         }else if (event.getSource() == purchase_btn) {
             home_form.setVisible(false);
@@ -282,5 +376,7 @@ public class dashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
       displayUsername();
+
+        availableFlowerShowListData();
     }
 }
