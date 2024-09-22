@@ -10,14 +10,16 @@ public class FlowersData {
     private String status;
     private Double price;
     private Date date;
+    private String image;
 
 
-    public FlowersData(Integer flowerId, String name, String status, Double price, Date date) {
+    public FlowersData(Integer flowerId, String name, String status, Double price, String image, Date date) {
         this.flowerId = flowerId;
         this.name = name;
         this.status = status;
         this.price = price;
         this.date = date;
+        this.image = image;
     }
 
     public Integer getFlowerId() {
@@ -58,5 +60,13 @@ public class FlowersData {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
