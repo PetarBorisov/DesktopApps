@@ -169,7 +169,7 @@
                                        </styleClass>
                                        <children>
                                           <ImageView fx:id="aviailableFlowers_imageView" fitHeight="174.0" fitWidth="129.0" layoutX="4.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
-                                          <Button fx:id="aviailableFlowers_importBtn" layoutX="2.0" layoutY="151.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="129.0" styleClass="add-btn" stylesheets="@../css/dashboardDesign.css" text="Import" />
+                                          <Button fx:id="aviailableFlowers_importBtn" layoutX="2.0" layoutY="151.0" mnemonicParsing="false" onAction="#availableFlowersInsertImage" prefHeight="20.0" prefWidth="129.0" styleClass="add-btn" stylesheets="@../css/dashboardDesign.css" text="Import" />
                                        </children>
                                     </AnchorPane>
                                     <Label layoutX="13.0" layoutY="214.0" text="Flower ID:">
