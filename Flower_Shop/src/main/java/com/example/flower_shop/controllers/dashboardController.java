@@ -26,6 +26,8 @@ import javafx.stage.StageStyle;
 import java.io.File;
 import java.net.URL;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -185,36 +187,71 @@ public class dashboardController implements Initializable {
                 alert.setContentText("Please fill all blank fields");
                 alert.showAndWait();
             }else {
-
-                String checkData = "SELECT flowerId FROM flowerId = '"
+                // Check if the Flower ID is already EXIST
+                String checkData = "SELECT flowerId FROM flowers WHERE flowerId = '"
                 + aviailableFlowers_flowerID.getText().isEmpty() +"'";
 
                 statement = connect.createStatement();
+                result = statement.executeQuery(checkData);
 
-                prepare = connect.prepareStatement(sql);
-                prepare.setString(1, aviailableFlowers_flowerID.getText());
-                prepare.setString(2, aviailableFlowers_flowerName.getText());
-                prepare.setString(3, (String) aviailableFlowers_status.getSelectionModel().getSelectedItem());
-                prepare.setString(4, aviailableFlowers_price.getText());
+                if (result.next()){
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Flower ID" + aviailableFlowers_flowerID.getText() + "was already exist !" );
+                    alert.showAndWait();
+                }else {
+                    prepare = connect.prepareStatement(sql);
+                    prepare.setString(1, aviailableFlowers_flowerID.getText());
+                    prepare.setString(2, aviailableFlowers_flowerName.getText());
+                    prepare.setString(3, (String) aviailableFlowers_status.getSelectionModel().getSelectedItem());
+                    prepare.setString(4, aviailableFlowers_price.getText());
 
-                String uri = GetData.path;
-                uri = uri.replace("\\", "\\\\");
-                prepare.setString(5, uri);
+                    String uri = GetData.path;
+                    uri = uri.replace("\\", "\\\\");
+                    prepare.setString(5, uri);
 
-                java.util.Date date = new java.util.Date();
-                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                    java.util.Date date = new java.util.Date();
+                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-                prepare.setString(6, String.valueOf(sqlDate));
+                    prepare.setString(6, String.valueOf(sqlDate));
+
+                    prepare.executeUpdate();
+
+                 // Show Updated Tableview
+                    availableFlowerShowListData();
+
+                 // CLEAR ALL FIELDS!
+                    availableFlowersClear();
+                }
             }
-
-
-
-
-
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    String listStatus[] = {"Available", "Not Available"};
+    public void availableFlowersStatus() {
+
+        List<String> listS = new ArrayList<>();
+        for (String data : listStatus) {
+            listS.add(data);
+        }
+        ObservableList listData = FXCollections.observableArrayList(listS);
+        aviailableFlowers_status.setItems(listData);
+
+    }
+
+    public  void availableFlowersClear() {
+
+        aviailableFlowers_flowerID.setText("");
+        aviailableFlowers_flowerName.setText("");
+        aviailableFlowers_status.getSelectionModel().clearSelection();
+        aviailableFlowers_price.setText("");
+        GetData.path = "";
+
+        aviailableFlowers_imageView.setImage(null);
 
     }
 
@@ -305,6 +342,7 @@ public class dashboardController implements Initializable {
 
             //TO SHOW THE UPDATED TABLEVIEW ONCE YOU CLICKED THE AVAILABLE FLOWERS BUTTON
             availableFlowerShowListData();
+            availableFlowersStatus();
 
         }else if (event.getSource() == purchase_btn) {
             home_form.setVisible(false);
@@ -378,5 +416,6 @@ public class dashboardController implements Initializable {
       displayUsername();
 
         availableFlowerShowListData();
+        availableFlowersStatus();
     }
 }
