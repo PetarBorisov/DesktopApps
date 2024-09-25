@@ -189,7 +189,7 @@ public class dashboardController implements Initializable {
             }else {
                 // Check if the Flower ID is already EXIST
                 String checkData = "SELECT flowerId FROM flowers WHERE flowerId = '"
-                + aviailableFlowers_flowerID.getText().isEmpty() +"'";
+                + aviailableFlowers_flowerID.getText() +"'";
 
                 statement = connect.createStatement();
                 result = statement.executeQuery(checkData);
@@ -218,6 +218,12 @@ public class dashboardController implements Initializable {
 
                     prepare.executeUpdate();
 
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Added!");
+                    alert.showAndWait();
+
                  // Show Updated Tableview
                     availableFlowerShowListData();
 
@@ -226,20 +232,17 @@ public class dashboardController implements Initializable {
                 }
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {e.printStackTrace();
         }
     }
 
-    String listStatus[] = {"Available", "Not Available"};
-    public void availableFlowersStatus() {
+    public void availableFlowersUpdate() {
 
-        List<String> listS = new ArrayList<>();
-        for (String data : listStatus) {
-            listS.add(data);
-        }
-        ObservableList listData = FXCollections.observableArrayList(listS);
-        aviailableFlowers_status.setItems(listData);
+        String sql = "UPDATE flowers SET name = '"
+                + aviailableFlowers_flowerName.getText() +"', status = '"
+                + aviailableFlowers_status.getSelectionModel().clearSelection() +"', price = '"
+                + aviailableFlowers_price.setText() +"', image = '"
+                + +"'";
 
     }
 
@@ -255,6 +258,17 @@ public class dashboardController implements Initializable {
 
     }
 
+        String listStatus[] = {"Available", "Not Available"};
+    public void availableFlowersStatus() {
+
+        List<String> listS = new ArrayList<>();
+        for (String data : listStatus) {
+            listS.add(data);
+        }
+        ObservableList listData = FXCollections.observableArrayList(listS);
+        aviailableFlowers_status.setItems(listData);
+
+    }
     public void availableFlowersInsertImage() {
 
         FileChooser open = new FileChooser();
@@ -312,6 +326,25 @@ public class dashboardController implements Initializable {
         aviailableFlowers_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         aviailableFlowers_tableView.setItems(availableFlowerList);
+    }
+
+    public void availableFlowersSelect(){
+
+        FlowersData flower = aviailableFlowers_tableView.getSelectionModel().getSelectedItem();
+        int num = aviailableFlowers_tableView.getSelectionModel().getSelectedIndex();
+
+        if ((num -1) < -1) return;
+
+        aviailableFlowers_flowerID.setText(String.valueOf(flower.getFlowerId()));
+        aviailableFlowers_flowerName.setText(flower.getName());
+        aviailableFlowers_price.setText(String.valueOf(flower.getPrice()));
+
+        GetData.path = flower.getImage();
+
+        String uri = "file:" + flower.getImage();
+
+        image = new Image(uri, 129, 174, false, true);
+        aviailableFlowers_imageView.setImage(image);
     }
 
     public void displayUsername(){
