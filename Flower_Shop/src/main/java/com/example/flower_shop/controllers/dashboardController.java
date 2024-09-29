@@ -482,6 +482,29 @@ public class dashboardController implements Initializable {
 
         ObservableList<CustomerData> listData = FXCollections.observableArrayList();
 
+        String sql = "SELECT * FROM customer WHERE customerId = '"+ customerId +"'";
+
+        connect = Database.connectDb();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            CustomerData customer;
+
+            while (result.next()) {
+                customer = new CustomerData(result.getInt("customerId")
+                        , result.getInt("flowerId")
+                        , result.getString("name")
+                        , result.getInt("quantity")
+                        , result.getDouble("price")
+                        , result.getDate("date"));
+
+                listData.add(customer);
+            }
+
+        }catch (Exception e) {e.printStackTrace();
+        }return listData;
     }
     private int customerId;
     public void purchaseCustomerId() {
@@ -499,6 +522,21 @@ public class dashboardController implements Initializable {
             }
 
             int countData = 0;
+
+            String checkInfo = "SELECT MAX(customerId) FROM customer_info";
+
+            prepare = connect.prepareStatement(checkInfo);
+            result = prepare.executeQuery();
+
+            if (result.next()){
+                countData = result.getInt("MAX(customerId)");
+            }
+            if (customerId == 0){
+                customerId += 1;
+            } else if (customerId == countData) {
+                customerId = countData + 1;
+
+            }
 
         }catch (Exception e) {e.printStackTrace();
         }
