@@ -191,9 +191,9 @@
                                     </Label>
                                     <ComboBox fx:id="aviailableFlowers_status" layoutX="16.0" layoutY="326.0" onAction="#availableFlowersStatus" prefHeight="26.0" prefWidth="170.0" promptText="Choose..." styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
                                     <Button fx:id="aviailableFlowers_addBtn" layoutX="20.0" layoutY="423.0" mnemonicParsing="false" onAction="#availableFlowersAdd" prefHeight="26.0" prefWidth="75.0" styleClass="add-btn" stylesheets="@../css/dashboardDesign.css" text="Add" />
-                                    <Button fx:id="aviailableFlowers_updateBtn" layoutX="110.0" layoutY="423.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" styleClass="update-btn" stylesheets="@../css/dashboardDesign.css" text="Update" />
+                                    <Button fx:id="aviailableFlowers_updateBtn" layoutX="110.0" layoutY="423.0" mnemonicParsing="false" onAction="#availableFlowersUpdate" prefHeight="26.0" prefWidth="75.0" styleClass="update-btn" stylesheets="@../css/dashboardDesign.css" text="Update" />
                                     <Button fx:id="aviailableFlowers_clearBtn" layoutX="21.0" layoutY="469.0" mnemonicParsing="false" onAction="#availableFlowersClear" prefHeight="26.0" prefWidth="75.0" styleClass="clear-btn" stylesheets="@../css/dashboardDesign.css" text="Clear" />
-                                    <Button fx:id="aviailableFlowers_deleteBtn" layoutX="111.0" layoutY="469.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" styleClass="delete-btn" stylesheets="@../css/dashboardDesign.css" text="Delete" />
+                                    <Button fx:id="aviailableFlowers_deleteBtn" layoutX="111.0" layoutY="469.0" mnemonicParsing="false" onAction="#availableFlowersDelete" prefHeight="26.0" prefWidth="75.0" styleClass="delete-btn" stylesheets="@../css/dashboardDesign.css" text="Delete" />
                                     <Label layoutX="13.0" layoutY="352.0" text="Price:">
                                        <font>
                                           <Font size="14.0" />
