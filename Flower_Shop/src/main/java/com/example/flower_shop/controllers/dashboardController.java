@@ -1,5 +1,6 @@
 package com.example.flower_shop.controllers;
 
+import com.example.flower_shop.CustomerData;
 import com.example.flower_shop.Database;
 import com.example.flower_shop.FlowersData;
 import com.example.flower_shop.GetData;
@@ -475,6 +476,33 @@ public class dashboardController implements Initializable {
 
         image = new Image(uri, 129, 174, false, true);
         aviailableFlowers_imageView.setImage(image);
+    }
+
+    public ObservableList<CustomerData> purchaseListData() {
+
+        ObservableList<CustomerData> listData = FXCollections.observableArrayList();
+
+    }
+    private int customerId;
+    public void purchaseCustomerId() {
+
+        String sql = "SELECT MAX(customerId) FROM customer";
+
+        connect = Database.connectDb();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            if (result.next()){
+                customerId = result.getInt("MAX(customerId)");
+            }
+
+            int countData = 0;
+
+        }catch (Exception e) {e.printStackTrace();
+        }
+
     }
 
     public void displayUsername(){
