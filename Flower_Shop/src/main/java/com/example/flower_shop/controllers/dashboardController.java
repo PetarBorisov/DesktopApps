@@ -439,9 +439,9 @@ public class dashboardController implements Initializable {
 
                 if (PredicateFlowerData.getFlowerId().toString().contains(searchKey)) {
                     return true;
-                } else if (PredicateFlowerData.getName().toString().contains(searchKey)) {
+                } else if (PredicateFlowerData.getName().toString().toLowerCase().contains(searchKey)) {
                     return true;
-                } else if (PredicateFlowerData.getStatus().toString().contains(searchKey)) {
+                } else if (PredicateFlowerData.getStatus().toString().toLowerCase().contains(searchKey)) {
                     return true;
                 } else if (PredicateFlowerData.getPrice().toString().contains(searchKey)) {
                     return true;
