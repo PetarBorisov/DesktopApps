@@ -124,16 +124,16 @@ public class dashboardController implements Initializable {
     private Button purchase_btn;
 
     @FXML
-    private TableColumn<?, ?> purchase_col_flowerID;
+    private TableColumn<CustomerData, String> purchase_col_flowerID;
 
     @FXML
-    private TableColumn<?, ?> purchase_col_flowerName;
+    private TableColumn<CustomerData, String> purchase_col_flowerName;
 
     @FXML
-    private TableColumn<?, ?> purchase_col_price;
+    private TableColumn<CustomerData, String> purchase_col_price;
 
     @FXML
-    private TableColumn<?, ?> purchase_col_quantity;
+    private TableColumn<CustomerData, String> purchase_col_quantity;
 
     @FXML
     private ComboBox<?> purchase_flowerID;
@@ -151,7 +151,7 @@ public class dashboardController implements Initializable {
     private Spinner<?> purchase_quantity;
 
     @FXML
-    private TableView<?> purchase_tableView;
+    private TableView<CustomerData> purchase_tableView;
 
     @FXML
     private Label purchase_total;
@@ -477,8 +477,29 @@ public class dashboardController implements Initializable {
         image = new Image(uri, 129, 174, false, true);
         aviailableFlowers_imageView.setImage(image);
     }
+    public void purchaseFlowerId(){
+
+        String sql = "SELECT status, flowerId FROM flowers WHERE status = 'Available'";
+
+        connect = Database.connectDb();
+
+        try {
+            ObservableList listData = FXCollections.observableArrayList();
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()) {
+                listData.add(result.getInt("flowerId"));
+            }
+
+        }catch (Exception e) {e.printStackTrace();
+        }
+
+
+    }
 
     public ObservableList<CustomerData> purchaseListData() {
+        purchaseCustomerId();
 
         ObservableList<CustomerData> listData = FXCollections.observableArrayList();
 
@@ -505,7 +526,22 @@ public class dashboardController implements Initializable {
 
         }catch (Exception e) {e.printStackTrace();
         }return listData;
+
     }
+
+    private ObservableList<CustomerData> purchaseListD;
+    public void purchaseShowListData() {
+        purchaseListD =  purchaseListData();
+
+        purchase_col_flowerID.setCellValueFactory(new PropertyValueFactory<>("flowerId"));
+        purchase_col_flowerName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        purchase_col_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        purchase_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        purchase_tableView.setItems(purchaseListD);
+
+    }
+
     private int customerId;
     public void purchaseCustomerId() {
 
@@ -582,6 +618,8 @@ public class dashboardController implements Initializable {
             purchase_btn.setStyle(" -fx-background-color:linear-gradient(to bottom right, #bb1a3a, #722327);");
             availableFlowers_btn.setStyle("-fx-background-color: transparent");
             home_btn.setStyle("-fx-background-color: transparent");
+
+            purchaseShowListData();
         }
     }
     private double x = 0;
@@ -648,6 +686,8 @@ public class dashboardController implements Initializable {
         availableFlowerShowListData();
         availableFlowersStatus();
         availableFlowersSearch();
+
+        purchaseShowListData();
 
 
     }
