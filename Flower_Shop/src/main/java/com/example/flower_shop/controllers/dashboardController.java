@@ -242,8 +242,9 @@ public class dashboardController implements Initializable {
     public void availableFlowersUpdate() {
 
         String uri = GetData.path;
-        uri = uri.replace("\\", "\\\\");
-
+        if (!(uri == null ||uri == "") ) {
+            uri = uri.replace("\\", "\\\\");
+        }
         String sql = "UPDATE flowers SET name = '"
                 + aviailableFlowers_flowerName.getText() +"', status = '"
                 + aviailableFlowers_status.getSelectionModel().getSelectedItem() +"', price = '"
@@ -258,7 +259,7 @@ public class dashboardController implements Initializable {
                     || aviailableFlowers_flowerName.getText().isEmpty()
                     || aviailableFlowers_status.getSelectionModel().getSelectedItem() == null
                     || aviailableFlowers_price.getText().isEmpty()
-                    || GetData.path == null || GetData.path == "") {
+                    || uri == null || uri == "") {
 
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
