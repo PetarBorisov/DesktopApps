@@ -148,7 +148,7 @@ public class dashboardController implements Initializable {
     private Button purchase_payBtn;
 
     @FXML
-    private Spinner<?> purchase_quantity;
+    private Spinner<Integer> purchase_quantity;
 
     @FXML
     private TableView<CustomerData> purchase_tableView;
@@ -477,7 +477,7 @@ public class dashboardController implements Initializable {
         image = new Image(uri, 129, 174, false, true);
         aviailableFlowers_imageView.setImage(image);
     }
-    public void purchaseFlowerId(){
+    public void purchaseFlowerId() {
 
         String sql = "SELECT status, flowerId FROM flowers WHERE status = 'Available'";
 
@@ -491,11 +491,44 @@ public class dashboardController implements Initializable {
             while (result.next()) {
                 listData.add(result.getInt("flowerId"));
             }
+            purchase_flowerID.setItems(listData);
+
+            purchaseFlowerName();
 
         }catch (Exception e) {e.printStackTrace();
         }
+    }
 
+    public void purchaseFlowerName() {
 
+        String sql = "SELECT flowerId, name FROM flowers WHERE flowerId = '"
+                + purchase_flowerID.getSelectionModel().getSelectedItem()+"'";
+
+        connect = Database.connectDb();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            ObservableList listData = FXCollections.observableArrayList();
+
+            while (result.next()) {
+                listData.add(result.getString("name"));
+            }
+            purchase_flowerName.setItems(listData);
+
+        }catch (Exception e) {e.printStackTrace();}
+    }
+
+    private SpinnerValueFactory<Integer> spinner;
+    public void purchaseSpinner() {
+        spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 1);
+        purchase_quantity.setValueFactory(spinner);
+    }
+
+    private int qty;
+    public void purchaseQuantity() {
+        qty = purchase_quantity.getValue();
     }
 
     public ObservableList<CustomerData> purchaseListData() {
@@ -620,6 +653,11 @@ public class dashboardController implements Initializable {
             home_btn.setStyle("-fx-background-color: transparent");
 
             purchaseShowListData();
+            purchaseFlowerId();
+            purchaseFlowerName();
+            purchaseSpinner();
+
+
         }
     }
     private double x = 0;
@@ -688,6 +726,9 @@ public class dashboardController implements Initializable {
         availableFlowersSearch();
 
         purchaseShowListData();
+        purchaseFlowerId();
+        purchaseFlowerName();
+        purchaseSpinner();
 
 
     }
