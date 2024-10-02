@@ -154,7 +154,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="availableFlowers_form" layoutX="77.0" layoutY="102.0" prefHeight="537.6" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="availableFlowers_form" layoutX="77.0" layoutY="102.0" prefHeight="537.6" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="13.0" prefHeight="510.0" prefWidth="200.0" stylesheets="@../css/dashboardDesign.css">
                                  <styleClass>
@@ -222,7 +222,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="purchase_form" layoutX="65.0" layoutY="82.0" prefHeight="537.6" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="purchase_form" layoutX="65.0" layoutY="82.0" prefHeight="537.6" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="508.0" prefWidth="874.0" stylesheets="@../css/dashboardDesign.css">
                                  <styleClass>
@@ -237,10 +237,10 @@
                                        </styleClass>
                                        <children>
                                           <Label layoutX="41.0" layoutY="32.0" text="Flower ID:" />
-                                          <ComboBox fx:id="purchase_flowerID" layoutX="105.0" layoutY="28.0" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
+                                          <ComboBox fx:id="purchase_flowerID" layoutX="105.0" layoutY="28.0" onAction="#purchaseFlowerId" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
                                           <Label layoutX="24.0" layoutY="64.0" text="Flower Name:" />
-                                          <ComboBox fx:id="purchase_flowerName" layoutX="105.0" layoutY="60.0" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
-                                          <Spinner fx:id="purchase_quantity" layoutX="106.0" layoutY="93.0" prefHeight="26.0" prefWidth="123.0" styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
+                                          <ComboBox fx:id="purchase_flowerName" layoutX="105.0" layoutY="60.0" onAction="#purchaseFlowerName" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
+                                          <Spinner fx:id="purchase_quantity" layoutX="106.0" layoutY="93.0" onMouseClicked="#purchaseQuantity" prefHeight="26.0" prefWidth="123.0" styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
                                           <Label layoutX="48.0" layoutY="97.0" text="Quantity:" />
                                           <Label layoutX="369.0" layoutY="55.0" text="Total:">
                                              <font>
