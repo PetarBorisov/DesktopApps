@@ -169,6 +169,28 @@ public class dashboardController implements Initializable {
 
     private Image image;
 
+    public void homeAF() {
+
+        String sql = "SELECT COUNT(id) FROM flowers WHERE status = 'Available'";
+
+        connect = Database.connectDb();
+
+        try {
+            int countAF = 0;
+            statement = connect.createStatement();
+            result = statement.executeQuery(sql);
+
+            if (result.next()) {
+                countAF = result.getInt("COUNT(id)");
+            }
+            home_availableFlowers.setText(String.valueOf(countAF));
+        }catch (Exception e) {e.printStackTrace();}
+    }
+
+    public void homeTI() {
+        
+    }
+
     public void availableFlowersAdd() {
 
         String sql = "INSERT INTO flowers (flowerId, name, status, price, image, date)"
@@ -572,6 +594,16 @@ public class dashboardController implements Initializable {
                     prepare.setTimestamp(3, sqlTimestamp);
 
                     prepare.executeUpdate();
+
+                        alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("INFORMATION MESSAGE");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successful !!Thanks for purchase!");
+                    alert.showAndWait();
+
+                    totalP = 0;
+
+
                 }
             }
 
