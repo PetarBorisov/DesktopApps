@@ -151,6 +151,9 @@ public class dashboardController implements Initializable {
     private Spinner<Integer> purchase_quantity;
 
     @FXML
+    private Button purchase_addCart;
+
+    @FXML
     private TableView<CustomerData> purchase_tableView;
 
     @FXML
@@ -477,6 +480,63 @@ public class dashboardController implements Initializable {
         image = new Image(uri, 129, 174, false, true);
         aviailableFlowers_imageView.setImage(image);
     }
+
+    public void purchaseAddToCart() {
+        purchaseCustomerId();
+
+        String sql = "INSERT INTO customer (customerId, flowerId, name, quantity, price, date) "
+                + "VALUES(?,?,?,?,?,?)";
+
+        connect = Database.connectDb();
+
+        try {
+            Alert alert;
+
+            if (purchase_flowerID.getSelectionModel().getSelectedItem() == null
+            || purchase_flowerName.getSelectionModel().getSelectedItem() == null
+            || qty == 0){
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please choose the product first");
+                alert.showAndWait();
+            }else {
+                double priceData = 0;
+                double totalPrice ;
+
+                String checkPrice = "SELECT name, price FROM flowers WHERE name = '"+
+                        purchase_flowerName.getSelectionModel().getSelectedItem() +"'";
+
+                statement = connect.createStatement();
+                result = statement.executeQuery(checkPrice);
+
+                if (result.next()) {
+                    priceData = result.getDouble("price");
+                }
+
+                prepare = connect.prepareStatement(sql);
+                prepare.setString(1, String.valueOf(customerId));
+                prepare.setInt(2, (Integer) purchase_flowerID.getSelectionModel().getSelectedItem());
+                prepare.setString(3, (String) purchase_flowerName.getSelectionModel().getSelectedItem());
+                prepare.setString(4, String.valueOf(qty));
+
+                totalPrice = (priceData * qty);
+
+                prepare.setString(5, String.valueOf(totalPrice));
+
+                java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(new java.util.Date().getTime());
+                prepare.setTimestamp(6, sqlTimestamp);
+
+
+
+                prepare.executeUpdate();
+                purchaseShowListData();
+
+            }
+
+        }catch (Exception e) {e.printStackTrace();}
+    }
+
     public void purchaseFlowerId() {
 
         String sql = "SELECT status, flowerId FROM flowers WHERE status = 'Available'";
@@ -522,7 +582,7 @@ public class dashboardController implements Initializable {
 
     private SpinnerValueFactory<Integer> spinner;
     public void purchaseSpinner() {
-        spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 1);
+        spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0);
         purchase_quantity.setValueFactory(spinner);
     }
 
