@@ -530,11 +530,73 @@ public class dashboardController implements Initializable {
 
 
                 prepare.executeUpdate();
+
                 purchaseShowListData();
+                purchaseDisplayTotal();
 
             }
 
         }catch (Exception e) {e.printStackTrace();}
+    }
+
+    public void purchasePay() {
+
+        String sql = "INSERT INTO customer_info (customerId, total, date) VALUES(?,?,?)";
+
+        connect = Database.connectDb();
+
+        try {
+
+            Alert alert;
+
+            if (totalP == 0) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR MESSAGE");
+                alert.setHeaderText(null);
+                alert.setContentText("Something wrong :3");
+                alert.showAndWait();
+            }else {
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation MESSAGE");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure?");
+                Optional<ButtonType> option = alert.showAndWait();
+
+                if (option.get().equals(ButtonType.OK)) {
+                    prepare = connect.prepareStatement(sql);
+                    prepare.setString(1, String.valueOf(customerId));
+                    prepare.setString(2, String.valueOf(totalP));
+
+
+                    java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(new java.util.Date().getTime());
+                    prepare.setTimestamp(3, sqlTimestamp);
+
+                    prepare.executeUpdate();
+                }
+            }
+
+        }catch (Exception e) {e.printStackTrace();}
+    }
+
+    private double totalP = 0;
+    public void purchaseDisplayTotal() {
+        purchaseCustomerId();
+        String sql = "SELECT SUM(price) FROM customer WHERE customerId = '" + customerId + "'";
+
+        connect = Database.connectDb();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            if (result.next()) {
+                totalP = result.getDouble("SUM(price)");
+            }
+
+            purchase_total.setText("$" + String.valueOf(totalP));
+
+        }catch (Exception e) {e.printStackTrace();};
+
     }
 
     public void purchaseFlowerId() {
@@ -716,10 +778,13 @@ public class dashboardController implements Initializable {
             purchaseFlowerId();
             purchaseFlowerName();
             purchaseSpinner();
+            purchaseDisplayTotal();
 
 
         }
     }
+
+
     private double x = 0;
     private double y = 0;
 
@@ -789,6 +854,7 @@ public class dashboardController implements Initializable {
         purchaseFlowerId();
         purchaseFlowerName();
         purchaseSpinner();
+        purchaseDisplayTotal();
 
 
     }
