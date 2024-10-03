@@ -253,6 +253,7 @@
                                              </font>
                                           </Label>
                                           <Button fx:id="purchase_payBtn" layoutX="427.0" layoutY="119.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="426.0" styleClass="add-btn" stylesheets="@../css/dashboardDesign.css" text="Pay" />
+                                          <Button fx:id="purchase_addCart" layoutX="32.0" layoutY="137.0" mnemonicParsing="false" onAction="#purchaseAddToCart" prefHeight="31.0" prefWidth="101.0" styleClass="add-btn" stylesheets="@../../../../../DesktopApps/Flower_Shop/src/main/resources/css/dashboardDesign.css" text="Add to Cart" />
                                        </children>
                                     </AnchorPane>
                                     <TableView fx:id="purchase_tableView" layoutX="6.0" layoutY="195.0" prefHeight="306.0" prefWidth="862.0">
