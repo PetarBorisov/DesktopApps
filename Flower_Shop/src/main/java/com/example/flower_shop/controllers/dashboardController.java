@@ -171,7 +171,7 @@ public class dashboardController implements Initializable {
 
     public void homeAF() {
 
-        String sql = "SELECT COUNT(id) FROM flowers WHERE status = 'Available'";
+        String sql = "SELECT COUNT(flowerID) AS flowerCount FROM flowers WHERE status = 'Available'";
 
         connect = Database.connectDb();
 
@@ -181,14 +181,50 @@ public class dashboardController implements Initializable {
             result = statement.executeQuery(sql);
 
             if (result.next()) {
-                countAF = result.getInt("COUNT(id)");
+                countAF = result.getInt("flowerCount");
             }
             home_availableFlowers.setText(String.valueOf(countAF));
         }catch (Exception e) {e.printStackTrace();}
     }
 
     public void homeTI() {
-        
+
+        String sql = "SELECT SUM(total) FROM customer_info";
+
+        connect = Database.connectDb();
+
+        try {
+            int countTI = 0;
+            statement = connect.createStatement();
+            result = statement.executeQuery(sql);
+
+            if (result.next()) {
+                countTI = result.getInt("SUM(total)");
+            }
+
+            home_totalIncome.setText("$" + String.valueOf(countTI));
+
+        }catch (Exception e) {e.printStackTrace();}
+    }
+
+    public void homeTC(){
+
+        String sql = "SELECT COUNT(id) FROM customer_info";
+
+        connect = Database.connectDb();
+
+        try {
+            int countTC = 0;
+            statement = connect.createStatement();
+            result = statement.executeQuery(sql);
+
+            if (result.next()) {
+                countTC = result.getInt("COUNT(id)");
+            }
+
+            home_totalCustomers.setText(String.valueOf(countTC));
+
+        }catch (Exception e) {e.printStackTrace();}
     }
 
     public void availableFlowersAdd() {
@@ -783,6 +819,10 @@ public class dashboardController implements Initializable {
             availableFlowers_btn.setStyle("-fx-background-color: transparent");
             purchase_btn.setStyle("-fx-background-color: transparent");
 
+            homeAF();
+            homeTI();
+            homeTC();
+
         }else if (event.getSource() == availableFlowers_btn) {
             home_form.setVisible(false);
             availableFlowers_form.setVisible(true);
@@ -877,6 +917,10 @@ public class dashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
       displayUsername();
+
+        homeAF();
+        homeTI();
+        homeTC();
 
         availableFlowerShowListData();
         availableFlowersStatus();
