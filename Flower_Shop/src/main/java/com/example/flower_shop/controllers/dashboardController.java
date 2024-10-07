@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -194,7 +195,7 @@ public class dashboardController implements Initializable {
         connect = Database.connectDb();
 
         try {
-            int countTI = 0;
+            double countTI = 0;
             statement = connect.createStatement();
             result = statement.executeQuery(sql);
 
@@ -223,6 +224,29 @@ public class dashboardController implements Initializable {
             }
 
             home_totalCustomers.setText(String.valueOf(countTC));
+
+        }catch (Exception e) {e.printStackTrace();}
+    }
+
+    public void homeChart() {
+        home_chart.getData().clear();
+
+        String sql = "SELECT date, SUM(total) FROM customer_info GROUP BY date ORDER BY TIMESTAMP(date) ASC LIMIT 7";
+
+        connect = Database.connectDb();
+
+        try {
+            XYChart.Series chart = new XYChart.Series();
+
+
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            while (result.next()){
+            chart.getData().add(new XYChart.Data(result.getString(1), result.getInt(2))) ;
+
+            }
+             home_chart.getData().add(chart);
 
         }catch (Exception e) {e.printStackTrace();}
     }
@@ -822,6 +846,7 @@ public class dashboardController implements Initializable {
             homeAF();
             homeTI();
             homeTC();
+            homeChart();
 
         }else if (event.getSource() == availableFlowers_btn) {
             home_form.setVisible(false);
@@ -921,6 +946,7 @@ public class dashboardController implements Initializable {
         homeAF();
         homeTI();
         homeTC();
+        homeChart();
 
         availableFlowerShowListData();
         availableFlowersStatus();
