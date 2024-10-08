@@ -1,6 +1,6 @@
 package com.example.flower_shop.controllers;
 
-import com.example.flower_shop.CustomerData;
+import com.example.flower_shop.CustomerInfo;
 import com.example.flower_shop.Database;
 import com.example.flower_shop.FlowersData;
 import com.example.flower_shop.GetData;
@@ -125,16 +125,16 @@ public class dashboardController implements Initializable {
     private Button purchase_btn;
 
     @FXML
-    private TableColumn<CustomerData, String> purchase_col_flowerID;
+    private TableColumn<CustomerInfo, String> purchase_col_flowerID;
 
     @FXML
-    private TableColumn<CustomerData, String> purchase_col_flowerName;
+    private TableColumn<CustomerInfo, String> purchase_col_flowerName;
 
     @FXML
-    private TableColumn<CustomerData, String> purchase_col_price;
+    private TableColumn<CustomerInfo, String> purchase_col_price;
 
     @FXML
-    private TableColumn<CustomerData, String> purchase_col_quantity;
+    private TableColumn<CustomerInfo, String> purchase_col_quantity;
 
     @FXML
     private ComboBox<?> purchase_flowerID;
@@ -155,7 +155,7 @@ public class dashboardController implements Initializable {
     private Button purchase_addCart;
 
     @FXML
-    private TableView<CustomerData> purchase_tableView;
+    private TableView<CustomerInfo> purchase_tableView;
 
     @FXML
     private Label purchase_total;
@@ -745,10 +745,10 @@ public class dashboardController implements Initializable {
         qty = purchase_quantity.getValue();
     }
 
-    public ObservableList<CustomerData> purchaseListData() {
+    public ObservableList<CustomerInfo> purchaseListData() {
         purchaseCustomerId();
 
-        ObservableList<CustomerData> listData = FXCollections.observableArrayList();
+        ObservableList<CustomerInfo> listData = FXCollections.observableArrayList();
 
         String sql = "SELECT * FROM customer WHERE customerId = '"+ customerId +"'";
 
@@ -758,10 +758,10 @@ public class dashboardController implements Initializable {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
 
-            CustomerData customer;
+            CustomerInfo customer;
 
             while (result.next()) {
-                customer = new CustomerData(result.getInt("customerId")
+                customer = new CustomerInfo(result.getInt("customerId")
                         , result.getInt("flowerId")
                         , result.getString("name")
                         , result.getInt("quantity")
@@ -776,7 +776,7 @@ public class dashboardController implements Initializable {
 
     }
 
-    private ObservableList<CustomerData> purchaseListD;
+    private ObservableList<CustomerInfo> purchaseListD;
     public void purchaseShowListData() {
         purchaseListD =  purchaseListData();
 
