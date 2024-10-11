@@ -1,6 +1,6 @@
 package com.example.flower_shop.controllers;
 
-import com.example.flower_shop.CustomerInfo;
+import com.example.flower_shop.CustomerData;
 import com.example.flower_shop.Database;
 import com.example.flower_shop.FlowersData;
 import com.example.flower_shop.GetData;
@@ -36,6 +36,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class dashboardController implements Initializable {
+
 
     @FXML
     private AnchorPane main_form;
@@ -125,16 +126,19 @@ public class dashboardController implements Initializable {
     private Button purchase_btn;
 
     @FXML
-    private TableColumn<CustomerInfo, String> purchase_col_flowerID;
+    private Button add_customersBTN;
 
     @FXML
-    private TableColumn<CustomerInfo, String> purchase_col_flowerName;
+    private TableColumn<CustomerData, String> purchase_col_flowerID;
 
     @FXML
-    private TableColumn<CustomerInfo, String> purchase_col_price;
+    private TableColumn<CustomerData, String> purchase_col_flowerName;
 
     @FXML
-    private TableColumn<CustomerInfo, String> purchase_col_quantity;
+    private TableColumn<CustomerData, String> purchase_col_price;
+
+    @FXML
+    private TableColumn<CustomerData, String> purchase_col_quantity;
 
     @FXML
     private ComboBox<?> purchase_flowerID;
@@ -155,13 +159,40 @@ public class dashboardController implements Initializable {
     private Button purchase_addCart;
 
     @FXML
-    private TableView<CustomerInfo> purchase_tableView;
+    private TableView<CustomerData> purchase_tableView;
 
     @FXML
     private Label purchase_total;
 
     @FXML
     private Text username;
+
+    @FXML
+    private ComboBox<CustomerData> choose_customerName;
+
+    @FXML
+    private TableView<?> add_customerTable;
+
+    @FXML
+    private Button add_customersBtn;
+
+    @FXML
+    private TextField add_customersFathersName;
+
+    @FXML
+    private TextField add_customersFirstName;
+
+    @FXML
+    private AnchorPane add_customersForm;
+
+    @FXML
+    private TextField add_customersID;
+
+    @FXML
+    private TextField add_customersLastName;
+
+    @FXML
+    private TextField add_customersPhoneNumber;
 
     private Connection connect;
     private PreparedStatement prepare;
@@ -745,10 +776,10 @@ public class dashboardController implements Initializable {
         qty = purchase_quantity.getValue();
     }
 
-    public ObservableList<CustomerInfo> purchaseListData() {
+    public ObservableList<CustomerData> purchaseListData() {
         purchaseCustomerId();
 
-        ObservableList<CustomerInfo> listData = FXCollections.observableArrayList();
+        ObservableList<CustomerData> listData = FXCollections.observableArrayList();
 
         String sql = "SELECT * FROM customer WHERE customerId = '"+ customerId +"'";
 
@@ -758,10 +789,10 @@ public class dashboardController implements Initializable {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
 
-            CustomerInfo customer;
+            CustomerData customer;
 
             while (result.next()) {
-                customer = new CustomerInfo(result.getInt("customerId")
+                customer = new CustomerData(result.getInt("customerId")
                         , result.getInt("flowerId")
                         , result.getString("name")
                         , result.getInt("quantity")
@@ -776,7 +807,7 @@ public class dashboardController implements Initializable {
 
     }
 
-    private ObservableList<CustomerInfo> purchaseListD;
+    private ObservableList<CustomerData> purchaseListD;
     public void purchaseShowListData() {
         purchaseListD =  purchaseListData();
 
