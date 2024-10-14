@@ -75,6 +75,8 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
+                        <Button fx:id="add_customersBtn" layoutX="10.0" layoutY="333.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboardDesign.css" text="Add Customers" />
+                        <FontAwesomeIcon fill="#6e9105" glyphName="USERS" layoutX="147.0" layoutY="362.0" size="1.5em" />
                      </children>
                   </AnchorPane>
                </left>
@@ -222,7 +224,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="purchase_form" layoutX="65.0" layoutY="82.0" prefHeight="537.6" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="purchase_form" layoutX="65.0" layoutY="82.0" prefHeight="537.6" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="508.0" prefWidth="874.0" stylesheets="@../css/dashboardDesign.css">
                                  <styleClass>
@@ -254,6 +256,8 @@
                                           </Label>
                                           <Button fx:id="purchase_payBtn" layoutX="427.0" layoutY="119.0" mnemonicParsing="false" onAction="#purchasePay" prefHeight="50.0" prefWidth="426.0" styleClass="add-btn" stylesheets="@../css/dashboardDesign.css" text="Pay" />
                                           <Button fx:id="purchase_addCart" layoutX="32.0" layoutY="137.0" mnemonicParsing="false" onAction="#purchaseAddToCart" prefHeight="31.0" prefWidth="101.0" styleClass="add-btn" stylesheets="@../../../../../DesktopApps/Flower_Shop/src/main/resources/css/dashboardDesign.css" text="Add to Cart" />
+                                          <ComboBox fx:id="choose_customerName" layoutX="544.0" layoutY="29.0" prefHeight="26.0" prefWidth="254.0" promptText="Choose..." />
+                                          <Label layoutX="452.0" layoutY="32.0" text="Customer Name:" />
                                        </children>
                                     </AnchorPane>
                                     <TableView fx:id="purchase_tableView" layoutX="6.0" layoutY="195.0" prefHeight="306.0" prefWidth="862.0">
@@ -264,6 +268,72 @@
                                           <TableColumn fx:id="purchase_col_price" prefWidth="201.60003662109375" text="Price" />
                                       </columns>
                                     </TableView>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="29.0" layoutY="27.0" prefHeight="200.0" prefWidth="200.0" />
+                              <AnchorPane fx:id="add_customersForm" layoutX="1.0" layoutY="7.0" prefHeight="537.6" prefWidth="900.0">
+                                 <children>
+                                    <AnchorPane layoutX="14.0" layoutY="13.0" prefHeight="510.0" prefWidth="200.0" stylesheets="@../css/dashboardDesign.css">
+                                       <styleClass>
+                                          <String fx:value="white-bg" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                       <children>
+                                          <Label layoutX="21.0" layoutY="29.0" text="ID:">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="add_customersID" layoutX="18.0" layoutY="59.0" prefHeight="26.0" prefWidth="168.0" styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
+                                          <Label layoutX="15.0" layoutY="87.0" text="First Name:">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="add_customersFirstName" layoutX="18.0" layoutY="114.0" prefHeight="26.0" prefWidth="168.0" styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
+                                          <Button fx:id="customer_addBtn" layoutX="20.0" layoutY="423.0" mnemonicParsing="false" onAction="#availableFlowersAdd" prefHeight="26.0" prefWidth="75.0" styleClass="add-btn" stylesheets="@../css/dashboardDesign.css" text="Add" />
+                                          <Button fx:id="customers_updateBtn" layoutX="110.0" layoutY="423.0" mnemonicParsing="false" onAction="#availableFlowersUpdate" prefHeight="26.0" prefWidth="75.0" styleClass="update-btn" stylesheets="@../css/dashboardDesign.css" text="Update" />
+                                          <Button fx:id="customers_clearBtn" layoutX="21.0" layoutY="469.0" mnemonicParsing="false" onAction="#availableFlowersClear" prefHeight="26.0" prefWidth="75.0" styleClass="clear-btn" stylesheets="@../css/dashboardDesign.css" text="Clear" />
+                                          <Button fx:id="customer_deleteBtn" layoutX="111.0" layoutY="469.0" mnemonicParsing="false" onAction="#availableFlowersDelete" prefHeight="26.0" prefWidth="75.0" styleClass="delete-btn" stylesheets="@../css/dashboardDesign.css" text="Delete" />
+                                          <Label layoutX="14.0" layoutY="153.0" text="FathersName;">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="add_customersFathersName" layoutX="14.0" layoutY="173.0" prefHeight="26.0" prefWidth="168.0" promptText="\$0.0" styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
+                                          <Label layoutX="14.0" layoutY="214.0" text="Last Name;">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="add_customersLastName" layoutX="15.0" layoutY="234.0" prefHeight="26.0" prefWidth="168.0" promptText="\$0.0" styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
+                                          <Label layoutX="16.0" layoutY="278.0" text="Phone Number:">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="add_customersPhoneNumber" layoutX="15.0" layoutY="298.0" prefHeight="26.0" prefWidth="168.0" promptText="\$0.0" styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="233.0" layoutY="13.0" prefHeight="510.0" prefWidth="652.0" stylesheets="@../css/dashboardDesign.css">
+                                       <styleClass>
+                                          <String fx:value="white-bg" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                       <children>
+                                          <TextField fx:id="customer_search" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="248.0" promptText="Search" styleClass="search" stylesheets="@../css/dashboardDesign.css" />
+                                          <FontAwesomeIcon glyphName="SEARCH" layoutX="21.0" layoutY="31.0" />
+                                          <TableView fx:id="add_customerTable" layoutX="8.0" layoutY="54.0" onMouseClicked="#availableFlowersSelect" prefHeight="446.0" prefWidth="636.0">
+                                             <columns>
+                                                <TableColumn fx:id="customer_col_id" prefWidth="32.0" text="ID" />
+                                                <TableColumn fx:id="customer_col_FName" prefWidth="137.60003662109375" text="FirstName" />
+                                                <TableColumn fx:id="customer_colFathersName" prefWidth="150.4000244140625" text="Fathers Name" />
+                                                <TableColumn fx:id="customer_colLastName" minWidth="0.0" prefWidth="160.79998779296875" text="Last Name" />
+                                                <TableColumn fx:id="customer_colPhoneNumber" prefWidth="202.40008544921875" text="Phone Number" />
+                                             </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
                                  </children>
                               </AnchorPane>
                            </children>
