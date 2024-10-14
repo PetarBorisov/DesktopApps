@@ -1,44 +1,58 @@
 package com.example.flower_shop;
 
-
-import com.mysql.cj.x.protobuf.MysqlxCrud;
-
-import java.util.List;
-
 public class Customer {
 
-    private int customerId;
-    private String username;
-    private List<MysqlxCrud.Order> orders;
+    private Integer id;
+    private String firstName;
+    private String fathersName;
+    private String lastName;
+    private String phoneNumber;
 
-    public Customer(int customerId, String username, List<MysqlxCrud.Order> orders) {
-        this.customerId = customerId;
-        this.username = username;
-        this.orders = orders;
+    public Customer(Integer id, String firstName, String fathersName, String lastName, String phoneNumber) {
+        this.id = id;
+        this.firstName = firstName;
+        this.fathersName = fathersName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public List<MysqlxCrud.Order> getOrders() {
-        return orders;
+    public String getFathersName() {
+        return fathersName;
     }
 
-    public void setOrders(List<MysqlxCrud.Order> orders) {
-        this.orders = orders;
+    public void setFathersName(String fathersName) {
+        this.fathersName = fathersName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
-
