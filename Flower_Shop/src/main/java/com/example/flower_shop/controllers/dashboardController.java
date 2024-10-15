@@ -1,9 +1,6 @@
 package com.example.flower_shop.controllers;
 
-import com.example.flower_shop.CustomerData;
-import com.example.flower_shop.Database;
-import com.example.flower_shop.FlowersData;
-import com.example.flower_shop.GetData;
+import com.example.flower_shop.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -168,31 +165,61 @@ public class dashboardController implements Initializable {
     private Text username;
 
     @FXML
-    private ComboBox<CustomerData> choose_customerName;
+    private Button clients_Btn;
 
     @FXML
-    private TableView<?> add_customerTable;
+    private AnchorPane clients_form;
 
     @FXML
-    private Button add_customersBtn;
+    private Button client_addBtn;
 
     @FXML
-    private TextField add_customersFathersName;
+    private Button client_clearBtn;
 
     @FXML
-    private TextField add_customersFirstName;
+    private TableColumn<?, ?> client_col_firstName;
 
     @FXML
-    private AnchorPane add_customersForm;
+    private TableColumn<?, ?> client_col_fathersName;
 
     @FXML
-    private TextField add_customersID;
+    private TableColumn<?, ?> client_col_id;
 
     @FXML
-    private TextField add_customersLastName;
+    private TableColumn<?, ?> client_col_lastName;
 
     @FXML
-    private TextField add_customersPhoneNumber;
+    private TableColumn<?, ?> client_col_phoneNumber;
+
+    @FXML
+    private Button client_deleteBtn;
+
+    @FXML
+    private TextField client_firstName;
+
+    @FXML
+    private TextField client_fathersName;
+
+    @FXML
+    private TextField client_id;
+
+    @FXML
+    private TextField client_lastName;
+
+    @FXML
+    private TextField client_phoneNumber;
+
+    @FXML
+    private TextField client_search;
+
+    @FXML
+    private TableView<Client> client_tableView;
+
+    @FXML
+    private Button client_updateBtn;
+
+
+
 
     private Connection connect;
     private PreparedStatement prepare;
@@ -274,10 +301,10 @@ public class dashboardController implements Initializable {
             result = prepare.executeQuery();
 
             while (result.next()){
-            chart.getData().add(new XYChart.Data(result.getString(1), result.getInt(2))) ;
+                chart.getData().add(new XYChart.Data(result.getString(1), result.getInt(2))) ;
 
             }
-             home_chart.getData().add(chart);
+            home_chart.getData().add(chart);
 
         }catch (Exception e) {e.printStackTrace();}
     }
@@ -308,7 +335,7 @@ public class dashboardController implements Initializable {
             }else {
                 // Check if the Flower ID is already EXIST
                 String checkData = "SELECT flowerId FROM flowers WHERE flowerId = '"
-                + aviailableFlowers_flowerID.getText() +"'";
+                        + aviailableFlowers_flowerID.getText() +"'";
 
                 statement = connect.createStatement();
                 result = statement.executeQuery(checkData);
@@ -343,10 +370,10 @@ public class dashboardController implements Initializable {
                     alert.setContentText("Successfully Added!");
                     alert.showAndWait();
 
-                 // Show Updated Tableview
+                    // Show Updated Tableview
                     availableFlowerShowListData();
 
-                 // CLEAR ALL FIELDS!
+                    // CLEAR ALL FIELDS!
                     availableFlowersClear();
                 }
             }
@@ -471,7 +498,7 @@ public class dashboardController implements Initializable {
 
     }
 
-        String listStatus[] = {"Available", "Not Available"};
+    String listStatus[] = {"Available", "Not Available"};
     public void availableFlowersStatus() {
 
         List<String> listS = new ArrayList<>();
@@ -503,9 +530,9 @@ public class dashboardController implements Initializable {
     public ObservableList<FlowersData> availableFlowerListData() {
         ObservableList<FlowersData> listData = FXCollections.observableArrayList() ;
 
-            String sql = "SELECT * FROM flowers";
+        String sql = "SELECT * FROM flowers";
 
-            connect = Database.connectDb();
+        connect = Database.connectDb();
         try {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
@@ -606,8 +633,8 @@ public class dashboardController implements Initializable {
             Alert alert;
 
             if (purchase_flowerID.getSelectionModel().getSelectedItem() == null
-            || purchase_flowerName.getSelectionModel().getSelectedItem() == null
-            || qty == 0){
+                    || purchase_flowerName.getSelectionModel().getSelectedItem() == null
+                    || qty == 0){
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
@@ -686,7 +713,7 @@ public class dashboardController implements Initializable {
 
                     prepare.executeUpdate();
 
-                        alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("INFORMATION MESSAGE");
                     alert.setHeaderText(null);
                     alert.setContentText("Successful !!Thanks for purchase!");
@@ -869,38 +896,45 @@ public class dashboardController implements Initializable {
             home_form.setVisible(true);
             availableFlowers_form.setVisible(false);
             purchase_form.setVisible(false);
+            clients_form.setVisible(false);
 
             home_btn.setStyle(" -fx-background-color:linear-gradient(to bottom right, #bb1a3a, #722327);");
             availableFlowers_btn.setStyle("-fx-background-color: transparent");
             purchase_btn.setStyle("-fx-background-color: transparent");
+            clients_Btn.setStyle("-fx-background-color: transparent");
 
             homeAF();
             homeTI();
             homeTC();
             homeChart();
 
-        }else if (event.getSource() == availableFlowers_btn) {
+        } else if (event.getSource() == availableFlowers_btn) {
             home_form.setVisible(false);
             availableFlowers_form.setVisible(true);
             purchase_form.setVisible(false);
+            clients_form.setVisible(false);
 
             availableFlowers_btn.setStyle(" -fx-background-color:linear-gradient(to bottom right, #bb1a3a, #722327);");
             home_btn.setStyle("-fx-background-color: transparent");
             purchase_btn.setStyle("-fx-background-color: transparent");
+            clients_Btn.setStyle("-fx-background-color: transparent");
 
-            //TO SHOW THE UPDATED TABLEVIEW ONCE YOU CLICKED THE AVAILABLE FLOWERS BUTTON
+            // Показване на актуализираните данни за наличните цветя
             availableFlowerShowListData();
             availableFlowersStatus();
             availableFlowersSearch();
 
-        }else if (event.getSource() == purchase_btn) {
+        } else if (event.getSource() == purchase_btn) {
             home_form.setVisible(false);
             availableFlowers_form.setVisible(false);
             purchase_form.setVisible(true);
+            clients_form.setVisible(false);
 
             purchase_btn.setStyle(" -fx-background-color:linear-gradient(to bottom right, #bb1a3a, #722327);");
             availableFlowers_btn.setStyle("-fx-background-color: transparent");
             home_btn.setStyle("-fx-background-color: transparent");
+            clients_Btn.setStyle("-fx-background-color: transparent");
+
 
             purchaseShowListData();
             purchaseFlowerId();
@@ -908,8 +942,127 @@ public class dashboardController implements Initializable {
             purchaseSpinner();
             purchaseDisplayTotal();
 
+        } else if (event.getSource() == clients_Btn) {
+            home_form.setVisible(false);
+            availableFlowers_form.setVisible(false);
+            purchase_form.setVisible(false);
+            clients_form.setVisible(true);  // Показване на формата за клиенти
+
+            clients_Btn.setStyle(" -fx-background-color:linear-gradient(to bottom right, #bb1a3a, #722327);");
+            home_btn.setStyle("-fx-background-color: transparent");
+            availableFlowers_btn.setStyle("-fx-background-color: transparent");
+            purchase_btn.setStyle("-fx-background-color: transparent");
+
+
 
         }
+
+    }
+    public ObservableList<Client> availableClientsData(){
+        ObservableList<Client> listData = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM clients";
+
+        connect = Database.connectDb();
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            Client client;
+
+            while (result.next()) {
+                client = new Client(
+                        result.getInt("id"),
+                        result.getString("firstName"),
+                        result.getString("fathersName"),
+                        result.getString("lastName"),
+                        result.getString("phoneNumber")
+                );
+                listData.add(client);
+            }
+
+        }catch (Exception e) {e.printStackTrace();
+        }
+        return listData;
+    }
+
+
+    private ObservableList<Client> availableClientList;
+    public void clientsShowListData(){
+
+        availableClientList = availableClientsData();
+
+        client_col_id.setCellValueFactory(new PropertyValueFactory<>("client_id"));
+        client_col_firstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        client_col_fathersName.setCellValueFactory(new PropertyValueFactory<>("fathersName"));
+        client_col_lastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        client_col_phoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+
+        client_tableView.setItems(availableClientList);
+
+    }
+
+    public void addClients(){
+
+        String sql = "INSERT INTO clients (id, firstName, fathersName, lastName, phoneNumber)"
+                + "VALUES(?, ?, ?, ?, ?)";
+
+        connect = Database.connectDb();
+
+        try {
+
+            Alert alert;
+
+            if (client_id.getText().isEmpty()
+                    || client_firstName.getText().isEmpty()
+                    || client_lastName.getText().isEmpty()
+                    || client_fathersName.getText().isEmpty()
+                    || client_phoneNumber.getText().isEmpty()
+                    || GetData.path == null || GetData.path == "") {
+
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill all fields");
+                alert.showAndWait();
+            }else {
+                //Check if the Client ID is already EXIST;
+                String checkDataClients = "SELECT client_id FROM clients WHERE client_id = '"
+                        + client_id.getText() +"'";
+
+                statement = connect.createStatement();
+                result = statement.executeQuery(checkDataClients);
+            }
+
+            if (result.next()) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Client ID" + client_id.getText() + "was already exist !");
+                alert.showAndWait();
+            }else {
+                prepare = connect.prepareStatement(sql);
+                prepare.setString(1, client_id.getText());
+                prepare.setString(2, client_firstName.getText());
+                prepare.setString(3, client_fathersName.getText());
+                prepare.setString(4, client_lastName.getText());
+                prepare.setString(5, client_phoneNumber.getText());
+
+                prepare.executeUpdate();
+
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Successfully Added!");
+                alert.showAndWait();
+
+                //Show Updated Table
+                clientsShowListData();
+            }
+
+        }catch (Exception e) {e.printStackTrace();
+        }
+
     }
 
 
@@ -972,7 +1125,7 @@ public class dashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-      displayUsername();
+        displayUsername();
 
         homeAF();
         homeTI();
