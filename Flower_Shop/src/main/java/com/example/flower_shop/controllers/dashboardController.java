@@ -992,7 +992,7 @@ public class dashboardController implements Initializable {
 
         availableClientList = availableClientsData();
 
-        client_col_id.setCellValueFactory(new PropertyValueFactory<>("client_id"));
+        client_col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         client_col_firstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         client_col_fathersName.setCellValueFactory(new PropertyValueFactory<>("fathersName"));
         client_col_lastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -1004,7 +1004,7 @@ public class dashboardController implements Initializable {
 
     public void addClients(){
 
-        String sql = "INSERT INTO clients (id, firstName, fathersName, lastName, phoneNumber)"
+        String sql = "INSERT INTO clients (id, firstName, fathersName, lastName, phoneNumber) "
                 + "VALUES(?, ?, ?, ?, ?)";
 
         connect = Database.connectDb();
@@ -1017,17 +1017,17 @@ public class dashboardController implements Initializable {
                     || client_firstName.getText().isEmpty()
                     || client_lastName.getText().isEmpty()
                     || client_fathersName.getText().isEmpty()
-                    || client_phoneNumber.getText().isEmpty()
-                    || GetData.path == null || GetData.path == "") {
+                    || client_phoneNumber.getText().isEmpty()) {
 
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Please fill all fields");
                 alert.showAndWait();
+
             }else {
                 //Check if the Client ID is already EXIST;
-                String checkDataClients = "SELECT client_id FROM clients WHERE client_id = '"
+                String checkDataClients = "SELECT id FROM clients WHERE id = '"
                         + client_id.getText() +"'";
 
                 statement = connect.createStatement();
@@ -1058,11 +1058,36 @@ public class dashboardController implements Initializable {
 
                 //Show Updated Table
                 clientsShowListData();
+
+                clearClients();
             }
 
         }catch (Exception e) {e.printStackTrace();
         }
 
+    }
+
+    public void clearClients(){
+
+        client_id.setText("");
+        client_firstName.setText("");
+        client_fathersName.setText("");
+        client_lastName.setText("");
+        client_phoneNumber.setText("");
+
+
+    }
+    public void selectClient(){
+        Client client = client_tableView.getSelectionModel().getSelectedItem();
+        int num = client_tableView.getSelectionModel().getSelectedIndex();
+
+        if ((num - 1) < -1) return;
+
+        client_id.setText(String.valueOf(client.getId()));
+        client_firstName.setText(client.getFirstName());
+        client_fathersName.setText(client.getFathersName());
+        client_lastName.setText(client.getLastName());
+        client_phoneNumber.setText(client.getPhoneNumber());
     }
 
 
@@ -1141,6 +1166,10 @@ public class dashboardController implements Initializable {
         purchaseFlowerName();
         purchaseSpinner();
         purchaseDisplayTotal();
+
+        clientsShowListData();
+
+
 
 
     }
