@@ -1067,6 +1067,86 @@ public class dashboardController implements Initializable {
 
     }
 
+    public void updateClients() {
+
+        // SQL заявка за актуализация на клиентски данни
+        String updateSql = "UPDATE clients SET firstName = ?, fathersName = ?, lastName = ?, phoneNumber = ? WHERE id = ?";
+
+        connect = Database.connectDb();
+
+        try {
+            Alert alert;
+
+            if (client_id.getText().isEmpty()) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("ID field cannot be empty");
+                alert.showAndWait();
+                return;
+            }
+
+
+            if (client_firstName.getText().isEmpty()
+                    || client_fathersName.getText().isEmpty()
+                    || client_lastName.getText().isEmpty()
+                    || client_phoneNumber.getText().isEmpty()) {
+
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill all blank fields");
+                alert.showAndWait();
+                return;
+            }
+
+
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to UPDATE Client ID: " + client_id.getText() + "?");
+            Optional<ButtonType> option = alert.showAndWait();
+
+            if (option.get().equals(ButtonType.OK)) {
+
+                PreparedStatement updateStmt = connect.prepareStatement(updateSql);
+                updateStmt.setString(1, client_firstName.getText());
+                updateStmt.setString(2, client_fathersName.getText());
+                updateStmt.setString(3, client_lastName.getText());
+                updateStmt.setString(4, client_phoneNumber.getText());
+                updateStmt.setString(5, client_id.getText()); // Уверяваме се, че използваме същото ID за WHERE условието
+
+
+                int rowsUpdated = updateStmt.executeUpdate();
+
+
+                if (rowsUpdated > 0) {
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Updated!");
+                    alert.showAndWait();
+
+
+                    clientsShowListData();
+
+                    clearClients();
+
+                } else {
+                    
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Update failed: No client found with ID " + client_id.getText());
+                    alert.showAndWait();
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void clearClients(){
 
         client_id.setText("");
