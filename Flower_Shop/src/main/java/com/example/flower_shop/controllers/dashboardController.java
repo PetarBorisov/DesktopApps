@@ -1133,7 +1133,7 @@ public class dashboardController implements Initializable {
                     clearClients();
 
                 } else {
-                    
+
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Message");
                     alert.setHeaderText(null);
@@ -1147,6 +1147,61 @@ public class dashboardController implements Initializable {
         }
     }
 
+    public void deleteClients() {
+        String sql = "DELETE FROM clients WHERE id = ?";
+        connect = Database.connectDb();
+
+        try {
+            Alert alert;
+
+            // Проверка само за ID
+            if (client_id.getText().isEmpty()) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please enter a Client ID to delete.");
+                alert.showAndWait();
+                return; // Прекратяване на метода
+            }
+
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to DELETE Client ID: " + client_id.getText() + "?");
+            Optional<ButtonType> option = alert.showAndWait();
+
+            if (option.isPresent() && option.get().equals(ButtonType.OK)) {
+
+                PreparedStatement preparedStatement = connect.prepareStatement(sql);
+                preparedStatement.setString(1, client_id.getText());
+
+
+                int rowsDeleted = preparedStatement.executeUpdate();
+
+
+                if (rowsDeleted > 0) {
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Deleted!");
+                    alert.showAndWait();
+                } else {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No client found with ID: " + client_id.getText());
+                    alert.showAndWait();
+                }
+
+
+                clientsShowListData();
+
+
+                clearClients();
+            }
+        }catch (Exception e) {e.printStackTrace();}
+    }
+
     public void clearClients(){
 
         client_id.setText("");
@@ -1157,6 +1212,43 @@ public class dashboardController implements Initializable {
 
 
     }
+
+    public void clientSearch() {
+
+        FilteredList<Client> filter = new FilteredList<>(availableClientList, e -> true);
+
+        client_search.textProperty().addListener((Observable, oldValue, newValue) -> {
+
+            filter.setPredicate(PredicateClient -> {
+
+                if (newValue.isEmpty() || newValue == null) {
+                    return true;
+                }
+
+                String searchKey = newValue.toLowerCase();
+
+                if (PredicateClient.getId().toString().contains(searchKey)) {
+                    return true;
+                } else if (PredicateClient.getFirstName().toString().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else if (PredicateClient.getFathersName().toString().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else if (PredicateClient.getLastName().toString().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else if (PredicateClient.getPhoneNumber().toString().contains(searchKey)) {
+                    return true;
+                }else
+                    return false;
+            });
+        });
+
+        SortedList<Client> sortList = new SortedList<>(filter);
+
+        sortList.comparatorProperty().bind(client_tableView.comparatorProperty());
+
+        client_tableView.setItems(sortList);
+    }
+
     public void selectClient(){
         Client client = client_tableView.getSelectionModel().getSelectedItem();
         int num = client_tableView.getSelectionModel().getSelectedIndex();
@@ -1248,6 +1340,7 @@ public class dashboardController implements Initializable {
         purchaseDisplayTotal();
 
         clientsShowListData();
+        clientSearch();
 
 
 
