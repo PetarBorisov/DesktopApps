@@ -672,11 +672,13 @@ public class dashboardController implements Initializable {
                 prepare.executeUpdate();
 
                 purchaseShowListData();
+
                 purchaseDisplayTotal();
 
             }
 
         }catch (Exception e) {e.printStackTrace();}
+
     }
 
     public void purchasePay() {
@@ -693,9 +695,9 @@ public class dashboardController implements Initializable {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("ERROR MESSAGE");
                 alert.setHeaderText(null);
-                alert.setContentText("Something wrong :3");
+                alert.setContentText("Something went wrong :3");
                 alert.showAndWait();
-            }else {
+            } else {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation MESSAGE");
                 alert.setHeaderText(null);
@@ -707,25 +709,51 @@ public class dashboardController implements Initializable {
                     prepare.setString(1, String.valueOf(customerId));
                     prepare.setString(2, String.valueOf(totalP));
 
-
                     java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(new java.util.Date().getTime());
                     prepare.setTimestamp(3, sqlTimestamp);
 
                     prepare.executeUpdate();
 
+
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("INFORMATION MESSAGE");
                     alert.setHeaderText(null);
-                    alert.setContentText("Successful !!Thanks for purchase!");
+                    alert.setContentText("Successful! Thanks for the purchase!");
                     alert.showAndWait();
 
-                    totalP = 0;
 
+                    clearCart();
 
                 }
             }
 
-        }catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clearCart() {
+
+        purchaseListD.clear();
+
+        purchase_tableView.setItems(purchaseListD);
+
+        spinner.setValue(0);
+
+        totalP = 0;
+
+        purchase_total.setText("$" + totalP);
+
+
+        purchase_flowerID.getSelectionModel().clearSelection();
+        purchase_flowerName.getSelectionModel().clearSelection();
+
+
+        purchase_flowerID.getItems().clear();
+        purchase_flowerName.getItems().clear();
+
+
+        purchaseFlowerId();
     }
 
     private double totalP = 0;
@@ -745,7 +773,7 @@ public class dashboardController implements Initializable {
 
             purchase_total.setText("$" + String.valueOf(totalP));
 
-        }catch (Exception e) {e.printStackTrace();};
+        }catch (Exception e) {e.printStackTrace();}
 
     }
 
@@ -845,6 +873,7 @@ public class dashboardController implements Initializable {
 
         purchase_tableView.setItems(purchaseListD);
 
+
     }
 
     private int customerId;
@@ -941,6 +970,7 @@ public class dashboardController implements Initializable {
             purchaseFlowerName();
             purchaseSpinner();
             purchaseDisplayTotal();
+            clearCart();
 
         } else if (event.getSource() == clients_Btn) {
             home_form.setVisible(false);
@@ -1339,8 +1369,10 @@ public class dashboardController implements Initializable {
         purchaseSpinner();
         purchaseDisplayTotal();
 
+
         clientsShowListData();
         clientSearch();
+
 
 
 
