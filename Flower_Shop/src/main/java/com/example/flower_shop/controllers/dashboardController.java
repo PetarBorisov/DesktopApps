@@ -675,6 +675,8 @@ public class dashboardController implements Initializable {
 
                 purchaseDisplayTotal();
 
+
+
             }
 
         }catch (Exception e) {e.printStackTrace();}
@@ -859,11 +861,11 @@ public class dashboardController implements Initializable {
 
         }catch (Exception e) {e.printStackTrace();
         }return listData;
-
     }
 
     private ObservableList<CustomerData> purchaseListD;
     public void purchaseShowListData() {
+
         purchaseListD =  purchaseListData();
 
         purchase_col_flowerID.setCellValueFactory(new PropertyValueFactory<>("flowerId"));
@@ -873,44 +875,57 @@ public class dashboardController implements Initializable {
 
         purchase_tableView.setItems(purchaseListD);
 
-
     }
 
     private int customerId;
     public void purchaseCustomerId() {
 
-        String sql = "SELECT MAX(customerId) FROM customer";
+        String sqlCustomer = "SELECT MAX(customerId) AS maxCustomerId FROM customer";
+        String sqlCustomerInfo = "SELECT MAX(customerId) AS maxCustomerId FROM customer_info";
 
         connect = Database.connectDb();
 
         try {
-            prepare = connect.prepareStatement(sql);
-            result = prepare.executeQuery();
+            // Изпълнение на първата заявка (от таблицата customer)
+            PreparedStatement stmtCustomer = connect.prepareStatement(sqlCustomer);
+            ResultSet rsCustomer = stmtCustomer.executeQuery();
 
-            if (result.next()){
-                customerId = result.getInt("MAX(customerId)");
+            if (rsCustomer.next()) {
+                customerId = rsCustomer.getInt("maxCustomerId");
+
+            } else {
+                customerId = 0;  // Ако няма резултат, започнете от 0
+
             }
+
+            // Изпълнение на втората заявка (от таблицата customer_info)
+            PreparedStatement stmtCustomerInfo = connect.prepareStatement(sqlCustomerInfo);
+            ResultSet rsCustomerInfo = stmtCustomerInfo.executeQuery();
 
             int countData = 0;
+            if (rsCustomerInfo.next()) {
+                countData = rsCustomerInfo.getInt("maxCustomerId");
 
-            String checkInfo = "SELECT MAX(customerId) FROM customer_info";
-
-            prepare = connect.prepareStatement(checkInfo);
-            result = prepare.executeQuery();
-
-            if (result.next()){
-                countData = result.getInt("MAX(customerId)");
+            } else {
+                System.out.println("No customerId found in customer_info table.");
             }
-            if (customerId == 0){
-                customerId += 1;
-            } else if (customerId == countData) {
+
+            // Проверка и инкрементиране на customerId
+            if (customerId == 0 && countData == 0) {
+                // Ако и двете таблици са празни, започнете от 1
+                customerId = 1;
+
+            } else if (customerId <= countData) {
+                // Ако customerId от customer е по-малко или равно на countData от customer_info, увеличете го
                 customerId = countData + 1;
 
+            } else {
+
             }
 
-        }catch (Exception e) {e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
     }
 
     public void displayUsername(){
@@ -970,7 +985,7 @@ public class dashboardController implements Initializable {
             purchaseFlowerName();
             purchaseSpinner();
             purchaseDisplayTotal();
-            clearCart();
+          //  clearCart();
 
         } else if (event.getSource() == clients_Btn) {
             home_form.setVisible(false);
@@ -1362,6 +1377,7 @@ public class dashboardController implements Initializable {
         availableFlowerShowListData();
         availableFlowersStatus();
         availableFlowersSearch();
+
 
         purchaseShowListData();
         purchaseFlowerId();
