@@ -23,6 +23,8 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.StringConverter;
+import org.w3c.dom.Document;
 
 import java.io.File;
 import java.net.URL;
@@ -142,6 +144,9 @@ public class dashboardController implements Initializable {
 
     @FXML
     private ComboBox<?> purchase_flowerName;
+
+    @FXML
+    private ComboBox<Client> purchase_clientData;
 
     @FXML
     private AnchorPane purchase_form;
@@ -699,6 +704,13 @@ public class dashboardController implements Initializable {
                 alert.setHeaderText(null);
                 alert.setContentText("Something went wrong :3");
                 alert.showAndWait();
+
+            } else if (purchase_clientData.getSelectionModel().getSelectedItem() == null) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR MESSAGE");
+                alert.setHeaderText(null);
+                alert.setContentText("Please select CLIENT !");
+                alert.showAndWait();
             } else {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation MESSAGE");
@@ -725,10 +737,10 @@ public class dashboardController implements Initializable {
 
 
                     clearCart();
-
+                    clearClientFieldInPurchase();
+                    selectClientInPurchase();
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -985,6 +997,7 @@ public class dashboardController implements Initializable {
             purchaseFlowerName();
             purchaseSpinner();
             purchaseDisplayTotal();
+
           //  clearCart();
 
         } else if (event.getSource() == clients_Btn) {
@@ -1307,6 +1320,52 @@ public class dashboardController implements Initializable {
         client_phoneNumber.setText(client.getPhoneNumber());
     }
 
+    public void selectClientInPurchase() {
+        // Получаваме данните за клиентите
+        ObservableList<Client> availableClients = availableClientsData();
+
+
+        // Проверка за налични клиенти
+        if (availableClients == null || availableClients.isEmpty()) {
+
+            purchase_clientData.getItems().clear(); // Осигуряване, че ComboBox е празен
+            return; // Спиране на метода, ако няма клиенти
+        }
+
+        // Изчистване на текущите елементи в ComboBox
+        purchase_clientData.getItems().clear();
+
+        // Добавяме клиентите в ComboBox
+        purchase_clientData.getItems().addAll(availableClients);
+
+
+        // Настройваме StringConverter
+        purchase_clientData.setConverter(new StringConverter<Client>() {
+            @Override
+            public String toString(Client client) {
+                if (client == null) {
+                    return "";
+                }
+                return client.getFirstName() + " " + client.getFathersName() + " " + client.getLastName();
+            }
+
+            @Override
+            public Client fromString(String string) {
+                return null;
+            }
+        });
+        // Проверка за избран клиент
+        purchase_clientData.setOnAction(event -> {
+            if (purchase_clientData.getValue() != null) {
+                Client selectedClient = purchase_clientData.getValue();
+            }
+        });
+    }
+    public void clearClientFieldInPurchase(){
+
+        purchase_clientData.getItems().clear();
+        purchase_clientData.setValue(null);
+    }
 
     private double x = 0;
     private double y = 0;
@@ -1384,10 +1443,12 @@ public class dashboardController implements Initializable {
         purchaseFlowerName();
         purchaseSpinner();
         purchaseDisplayTotal();
+        selectClientInPurchase();
 
 
         clientsShowListData();
         clientSearch();
+
 
 
 
