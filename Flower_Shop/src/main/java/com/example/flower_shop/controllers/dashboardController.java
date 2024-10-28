@@ -19,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -29,6 +30,7 @@ import org.w3c.dom.Document;
 import java.io.File;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +38,21 @@ import java.util.ResourceBundle;
 
 public class dashboardController implements Initializable {
 
+    private PaymentService paymentService;
+
+public dashboardController(){}
+
+    public void setPaymentService(PaymentService paymentService) {
+    this.paymentService = paymentService;
+    }
+
+    @FXML
+    private void handlePurchasePayButton() {
+        int customerId = 123; // Вземете актуалния идентификатор на клиента
+        double totalAmount = 50.0; // Вземете общата сума
+
+        paymentService.processPayment(customerId, totalAmount);
+    }
 
     @FXML
     private AnchorPane main_form;
@@ -739,6 +756,7 @@ public class dashboardController implements Initializable {
                     clearCart();
                     clearClientFieldInPurchase();
                     selectClientInPurchase();
+                    displayReceipt();
                 }
             }
         } catch (Exception e) {
@@ -1365,6 +1383,51 @@ public class dashboardController implements Initializable {
 
         purchase_clientData.getItems().clear();
         purchase_clientData.setValue(null);
+    }
+    // Метод за генериране на текст за разписката
+    private String generateReceiptText() {
+        StringBuilder receipt = new StringBuilder();
+
+        receipt.append("СТОКОВА РАЗПИСКА №1234\n");
+        receipt.append("Дата: ").append(LocalDate.now()).append("\n");
+        receipt.append("Доставчик: Магазин за цветя\n");
+        receipt.append("Клиент: Иван Иванов\n\n");
+
+        receipt.append(String.format("%-4s %-20s %-12s %-12s %-12s\n", "№", "Описание на стоката", "Количество", "Ед. цена", "Обща цена"));
+        receipt.append("-------------------------------------------------------------\n");
+
+        // Добавяне на примерни артикули
+        receipt.append(String.format("%-4d %-20s %-12d %-12.2f %-12.2f\n", 1, "Рози", 10, 2.5, 25.0));
+        receipt.append(String.format("%-4d %-20s %-12d %-12.2f %-12.2f\n", 2, "Лалета", 15, 1.8, 27.0));
+        receipt.append(String.format("%-4d %-20s %-12d %-12.2f %-12.2f\n", 3, "Орхидеи", 5, 5.0, 25.0));
+
+        // Обща сума
+        receipt.append("\n");
+        receipt.append(String.format("%-4s %-20s %-12s %-12s %-12.2f\n", "", "", "", "Общо:", 77.0));
+
+        receipt.append("\nДоставено от: Петър Петров\n");
+        receipt.append("Получено от: Иван Иванов\n");
+
+        return receipt.toString();
+    }
+
+    public void displayReceipt() {
+        Stage receiptStage = new Stage(); // Нов прозорец за разписката
+        receiptStage.setTitle("Стокова разписка");
+
+        // Примерни данни за разписката
+        String receiptText = generateReceiptText();
+
+        // TextArea за визуализация на разписката
+        TextArea receiptArea = new TextArea(receiptText);
+        receiptArea.setWrapText(true);
+        receiptArea.setEditable(false);
+        receiptArea.setStyle("-fx-font-family: monospace; -fx-font-size: 14;");
+
+        // Добавяне на TextArea в сцената на новия прозорец
+        Scene scene = new Scene(new StackPane(receiptArea), 400, 500);
+        receiptStage.setScene(scene);
+        receiptStage.show();
     }
 
     private double x = 0;
