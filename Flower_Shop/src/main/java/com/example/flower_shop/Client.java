@@ -1,20 +1,26 @@
 package com.example.flower_shop;
 
 public class Client {
-
     private Integer id;
     private String firstName;
     private String fathersName;
     private String lastName;
     private String phoneNumber;
+    private String fullName;
 
-    public Client(Integer id, String firstName, String fathersName, String lastName, String phoneNumber) {
+    public Client(Integer id, String firstName, String fathersName, String lastName, String phoneNumber,String fullName) {
         this.id = id;
         this.firstName = firstName;
         this.fathersName = fathersName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+        this.fullName = fullName;
     }
+
+    public String getFullName() {
+        return firstName + " " + fathersName + " " + lastName;
+    }
+
 
     public Integer getId() {
         return id;
