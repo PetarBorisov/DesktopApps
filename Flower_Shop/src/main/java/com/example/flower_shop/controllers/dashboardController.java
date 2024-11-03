@@ -48,8 +48,8 @@ public dashboardController(){}
 
     @FXML
     private void handlePurchasePayButton() {
-        int customerId = 123; // Вземете актуалния идентификатор на клиента
-        double totalAmount = 50.0; // Вземете общата сума
+        int customerId = 123;
+        double totalAmount = 50.0;
 
         paymentService.processPayment(customerId, totalAmount);
     }
@@ -283,7 +283,7 @@ public dashboardController(){}
                 countTI = result.getInt("SUM(total)");
             }
 
-            home_totalIncome.setText("$" + String.valueOf(countTI));
+            home_totalIncome.setText("BGN  " + String.valueOf(countTI));
 
         }catch (Exception e) {e.printStackTrace();}
     }
@@ -745,14 +745,6 @@ public dashboardController(){}
 
                     prepare.executeUpdate();
 
-
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("INFORMATION MESSAGE");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successful! Thanks for the purchase!");
-                    alert.showAndWait();
-
-
                     clearCart();
                     clearClientFieldInPurchase();
                     selectClientInPurchase();
@@ -774,7 +766,7 @@ public dashboardController(){}
 
         totalP = 0;
 
-        purchase_total.setText("$" + totalP);
+        purchase_total.setText("BGN  " + totalP);
 
 
         purchase_flowerID.getSelectionModel().clearSelection();
@@ -803,7 +795,7 @@ public dashboardController(){}
                 totalP = result.getDouble("SUM(price)");
             }
 
-            purchase_total.setText("$" + String.valueOf(totalP));
+            purchase_total.setText("BGN  " + String.valueOf(totalP));
 
         }catch (Exception e) {e.printStackTrace();}
 
@@ -884,7 +876,8 @@ public dashboardController(){}
                         , result.getString("name")
                         , result.getInt("quantity")
                         , result.getDouble("price")
-                        , result.getDate("date"));
+                        , result.getDate("date")
+                        , result.getString("fullName"));
 
                 listData.add(customer);
             }
@@ -902,6 +895,7 @@ public dashboardController(){}
         purchase_col_flowerName.setCellValueFactory(new PropertyValueFactory<>("name"));
         purchase_col_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         purchase_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+
 
         purchase_tableView.setItems(purchaseListD);
 
@@ -1052,7 +1046,8 @@ public dashboardController(){}
                         result.getString("firstName"),
                         result.getString("fathersName"),
                         result.getString("lastName"),
-                        result.getString("phoneNumber")
+                        result.getString("phoneNumber"),
+                        result.getString("fullName")
                 );
                 listData.add(client);
             }
@@ -1074,20 +1069,22 @@ public dashboardController(){}
         client_col_lastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         client_col_phoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
 
+
         client_tableView.setItems(availableClientList);
 
     }
 
     public void addClients(){
 
-        String sql = "INSERT INTO clients (id, firstName, fathersName, lastName, phoneNumber) "
-                + "VALUES(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO clients (id, firstName, fathersName, lastName, phoneNumber,fullName) "
+                + "VALUES(?, ?, ?, ?, ?,?)";
 
         connect = Database.connectDb();
 
         try {
 
             Alert alert;
+
 
             if (client_id.getText().isEmpty()
                     || client_firstName.getText().isEmpty()
@@ -1102,7 +1099,6 @@ public dashboardController(){}
                 alert.showAndWait();
 
             }else {
-                //Check if the Client ID is already EXIST;
                 String checkDataClients = "SELECT id FROM clients WHERE id = '"
                         + client_id.getText() +"'";
 
@@ -1117,12 +1113,26 @@ public dashboardController(){}
                 alert.setContentText("Client ID" + client_id.getText() + "was already exist !");
                 alert.showAndWait();
             }else {
+
+                Client client = new Client(
+                        Integer.parseInt(client_id.getText()),
+                        client_firstName.getText(),
+                        client_fathersName.getText(),
+                        client_lastName.getText(),
+                        client_phoneNumber.getText(),
+                        null // fullName се генерира автоматично от getFullName()
+                );
+
+                // Подготвяме SQL заявката
                 prepare = connect.prepareStatement(sql);
-                prepare.setString(1, client_id.getText());
-                prepare.setString(2, client_firstName.getText());
-                prepare.setString(3, client_fathersName.getText());
-                prepare.setString(4, client_lastName.getText());
-                prepare.setString(5, client_phoneNumber.getText());
+                prepare.setInt(1, client.getId()); // ID
+                prepare.setString(2, client.getFirstName()); // First Name
+                prepare.setString(3, client.getFathersName()); // Father's Name
+                prepare.setString(4, client.getLastName()); // Last Name
+                prepare.setString(5, client.getPhoneNumber()); // Phone Number
+
+                // Използваме метода getFullName() на обекта client
+                prepare.setString(6, client.getFullName()); // Full Name
 
                 prepare.executeUpdate();
 
@@ -1190,7 +1200,7 @@ public dashboardController(){}
                 updateStmt.setString(2, client_fathersName.getText());
                 updateStmt.setString(3, client_lastName.getText());
                 updateStmt.setString(4, client_phoneNumber.getText());
-                updateStmt.setString(5, client_id.getText()); // Уверяваме се, че използваме същото ID за WHERE условието
+                updateStmt.setString(5, client_id.getText());// Уверяваме се, че използваме същото ID за WHERE условието
 
 
                 int rowsUpdated = updateStmt.executeUpdate();
@@ -1230,14 +1240,13 @@ public dashboardController(){}
         try {
             Alert alert;
 
-            // Проверка само за ID
             if (client_id.getText().isEmpty()) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Please enter a Client ID to delete.");
                 alert.showAndWait();
-                return; // Прекратяване на метода
+                return;
             }
 
             alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -1358,13 +1367,14 @@ public dashboardController(){}
 
 
         // Настройваме StringConverter
+
         purchase_clientData.setConverter(new StringConverter<Client>() {
             @Override
             public String toString(Client client) {
                 if (client == null) {
                     return "";
                 }
-                return client.getFirstName() + " " + client.getFathersName() + " " + client.getLastName();
+                return client.getFullName();//client.getFirstName() + " " + client.getFathersName() + " " + client.getLastName();
             }
 
             @Override
@@ -1372,7 +1382,7 @@ public dashboardController(){}
                 return null;
             }
         });
-        // Проверка за избран клиент
+
         purchase_clientData.setOnAction(event -> {
             if (purchase_clientData.getValue() != null) {
                 Client selectedClient = purchase_clientData.getValue();
