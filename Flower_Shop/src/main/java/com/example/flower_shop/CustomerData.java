@@ -10,14 +10,25 @@ public class CustomerData {
     private Integer quantity;
     private Double price;
     private Date date;
+    private String fullName;
 
-    public CustomerData(Integer customerId, Integer flowerId, String name, Integer quantity, Double price, Date date) {
+
+
+
+    public CustomerData(Integer customerId, Integer flowerId, String name, Integer quantity, Double price, Date date, String fullName) {
         this.customerId = customerId;
         this.flowerId = flowerId;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
         this.date = date;
+        this.fullName = fullName;
+    }
+    Client client ;
+
+
+    public String getFullName() {
+        return client.getFullName();
     }
 
     public Integer getCustomerId() {
