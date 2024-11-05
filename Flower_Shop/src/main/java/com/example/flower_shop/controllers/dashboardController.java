@@ -29,11 +29,11 @@ import javafx.util.StringConverter;
 import java.io.File;
 import java.net.URL;
 import java.sql.*;
+import java.sql.Date;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class dashboardController implements Initializable {
 
@@ -178,6 +178,9 @@ public dashboardController(){}
 
     @FXML
     private Button purchase_addCart;
+
+    @FXML
+    private Button purchase_clearCart;
 
     @FXML
     private TableView<CustomerOrder> purchase_tableView;
@@ -780,39 +783,103 @@ public dashboardController(){}
 
         purchase_total.setText("BGN  " + totalP);
 
-
         purchase_flowerID.getSelectionModel().clearSelection();
         purchase_flowerName.getSelectionModel().clearSelection();
-
 
         purchase_flowerID.getItems().clear();
         purchase_flowerName.getItems().clear();
 
-
         purchaseFlowerId();
     }
+    public void deleteLastItemInCart() {
+        String getLastIdSql = "SELECT MAX(customerId) AS lastId FROM customer";
+        String deleteSql = "DELETE FROM customer WHERE customerId = ?";
 
+        connect = Database.connectDb();
+
+        try {
+            // Първо получаваме ID-то на последния запис
+            PreparedStatement getLastIdStmt = connect.prepareStatement(getLastIdSql);
+            ResultSet result = getLastIdStmt.executeQuery();
+
+            if (result.next()) {
+                int lastId = result.getInt("lastId");
+
+                // Проверяваме дали има такъв ID
+                if (lastId > 0) {
+                    // След това изтриваме последния запис
+                    PreparedStatement deleteStmt = connect.prepareStatement(deleteSql);
+                    deleteStmt.setInt(1, lastId);
+                    int rowsDeleted = deleteStmt.executeUpdate();
+
+                    if (rowsDeleted > 0) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Information Message");
+                        alert.setHeaderText(null);
+                      //  alert.setContentText("Successfully deleted the last item from the cart!");
+                      //  alert.showAndWait();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Warning Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("No items found to delete.");
+                        alert.showAndWait();
+                    }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No items found in the cart.");
+                    alert.showAndWait();
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Database Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An error occurred while trying to delete the item: " + e.getMessage());
+            alert.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Unexpected Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An unexpected error occurred: " + e.getMessage());
+            alert.showAndWait();
+        }
+
+        clearCart();
+        clearClientFieldInPurchase();
+        selectClientInPurchase();
+    }
     private double totalP = 0;
     public void purchaseDisplayTotal() {
         purchaseCustomerId();
-        String sql = "SELECT SUM(price) FROM customer WHERE customerId = '" + customerId + "'";
+        String sql = "SELECT SUM(price) FROM customer WHERE customerId = ?";
 
         connect = Database.connectDb();
 
         try {
             prepare = connect.prepareStatement(sql);
+            prepare.setInt(1, customerId);
             result = prepare.executeQuery();
 
             if (result.next()) {
-                totalP = result.getDouble("SUM(price)");
+                totalP = result.getDouble(1);
             }
 
-            purchase_total.setText("BGN  " + String.valueOf(totalP));
+            DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.ENGLISH);
+            DecimalFormat df = new DecimalFormat("#.00", symbols);
+            String formattedTotal = df.format(totalP);
 
-        }catch (Exception e) {e.printStackTrace();}
+            purchase_total.setText("BGN " + formattedTotal);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
     public void purchaseFlowerId() {
 
         String sql = "SELECT status, flowerId FROM flowers WHERE status = 'Available'";
@@ -1152,7 +1219,7 @@ public dashboardController(){}
                         null // fullName се генерира автоматично от getFullName()
                 );
 
-                // Подготвяме SQL заявката
+
                 prepare = connect.prepareStatement(sql);
                 prepare.setInt(1, client.getId()); // ID
                 prepare.setString(2, client.getFirstName()); // First Name
@@ -1160,7 +1227,6 @@ public dashboardController(){}
                 prepare.setString(4, client.getLastName()); // Last Name
                 prepare.setString(5, client.getPhoneNumber()); // Phone Number
 
-                // Използваме метода getFullName() на обекта client
                 prepare.setString(6, client.getFullName()); // Full Name
 
                 prepare.executeUpdate();
@@ -1183,15 +1249,14 @@ public dashboardController(){}
     }
 
     public void updateClients() {
-
-        // SQL заявка за актуализация на клиентски данни
-        String updateSql = "UPDATE clients SET firstName = ?, fathersName = ?, lastName = ?, phoneNumber = ? WHERE id = ?";
-
+        // SQL заявка за актуализация на клиентски данни, включително fullName
+        String updateSql = "UPDATE clients SET firstName = ?, fathersName = ?, lastName = ?, phoneNumber = ?, fullName = ? WHERE id = ?";
         connect = Database.connectDb();
 
         try {
             Alert alert;
 
+            // Проверка дали полето ID е попълнено
             if (client_id.getText().isEmpty()) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
@@ -1201,11 +1266,11 @@ public dashboardController(){}
                 return;
             }
 
-
-            if (client_firstName.getText().isEmpty()
-                    || client_fathersName.getText().isEmpty()
-                    || client_lastName.getText().isEmpty()
-                    || client_phoneNumber.getText().isEmpty()) {
+            // Проверка дали всички необходими полета са попълнени
+            if (client_firstName.getText().isEmpty() ||
+                    client_fathersName.getText().isEmpty() ||
+                    client_lastName.getText().isEmpty() ||
+                    client_phoneNumber.getText().isEmpty()) {
 
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
@@ -1215,25 +1280,29 @@ public dashboardController(){}
                 return;
             }
 
-
+            // Потвърждение за актуализацията
             alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation Message");
             alert.setHeaderText(null);
             alert.setContentText("Are you sure you want to UPDATE Client ID: " + client_id.getText() + "?");
             Optional<ButtonType> option = alert.showAndWait();
 
-            if (option.get().equals(ButtonType.OK)) {
+            if (option.isPresent() && option.get().equals(ButtonType.OK)) {
 
+                // Генериране на пълното име (fullName)
+                String fullName = client_firstName.getText() + " " + client_fathersName.getText() + " " + client_lastName.getText();
+
+                // Подготовка на SQL заявката за актуализация
                 PreparedStatement updateStmt = connect.prepareStatement(updateSql);
                 updateStmt.setString(1, client_firstName.getText());
                 updateStmt.setString(2, client_fathersName.getText());
                 updateStmt.setString(3, client_lastName.getText());
                 updateStmt.setString(4, client_phoneNumber.getText());
-                updateStmt.setString(5, client_id.getText());// Уверяваме се, че използваме същото ID за WHERE условието
+                updateStmt.setString(5, fullName); // Задаваме новата стойност на fullName
+                updateStmt.setString(6, client_id.getText()); // ID за WHERE условието
 
-
+                // Изпълнение на актуализацията
                 int rowsUpdated = updateStmt.executeUpdate();
-
 
                 if (rowsUpdated > 0) {
                     alert = new Alert(Alert.AlertType.INFORMATION);
@@ -1242,13 +1311,11 @@ public dashboardController(){}
                     alert.setContentText("Successfully Updated!");
                     alert.showAndWait();
 
-
+                    // Обновяване на таблицата и изчистване на полетата
                     clientsShowListData();
-
                     clearClients();
 
                 } else {
-
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Message");
                     alert.setHeaderText(null);
@@ -1549,8 +1616,6 @@ public dashboardController(){}
         purchaseDisplayTotal();
 
         selectClientInPurchase();
-
-
         clientsShowListData();
         clientSearch();
 
