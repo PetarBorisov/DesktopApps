@@ -25,7 +25,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
-import org.w3c.dom.Document;
 
 import java.io.File;
 import java.net.URL;
@@ -145,16 +144,19 @@ public dashboardController(){}
     private Button add_customersBTN;
 
     @FXML
-    private TableColumn<CustomerData, String> purchase_col_flowerID;
+    private TableColumn<CustomerOrder, String> purchase_col_flowerID;
 
     @FXML
-    private TableColumn<CustomerData, String> purchase_col_flowerName;
+    private TableColumn<CustomerOrder, String> purchase_col_flowerName;
 
     @FXML
-    private TableColumn<CustomerData, String> purchase_col_price;
+    private TableColumn<CustomerOrder, String> purchase_col_price;
 
     @FXML
-    private TableColumn<CustomerData, String> purchase_col_quantity;
+    private TableColumn<CustomerOrder, String> purchase_col_quantity;
+
+    @FXML
+    private TableColumn<?, ?> purchase_col_clientName;
 
     @FXML
     private ComboBox<?> purchase_flowerID;
@@ -178,7 +180,7 @@ public dashboardController(){}
     private Button purchase_addCart;
 
     @FXML
-    private TableView<CustomerData> purchase_tableView;
+    private TableView<CustomerOrder> purchase_tableView;
 
     @FXML
     private Label purchase_total;
@@ -644,30 +646,45 @@ public dashboardController(){}
     }
 
     public void purchaseAddToCart() {
-        purchaseCustomerId();
 
-        String sql = "INSERT INTO customer (customerId, flowerId, name, quantity, price, date) "
-                + "VALUES(?,?,?,?,?,?)";
+
+        if (purchase_clientData.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR MESSAGE");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select CLIENT!");
+            alert.showAndWait();
+            return;
+        }
+
+
+        purchaseCustomerId();
+        Client selectedClient = (Client) purchase_clientData.getSelectionModel().getSelectedItem();
+        String fullName = selectedClient != null ? selectedClient.getFullName() : "";
+
+        String sql = "INSERT INTO customer (customerId, flowerId, name, quantity, price, date, fullName) "
+                + "VALUES(?,?,?,?,?,?,?)";
 
         connect = Database.connectDb();
 
         try {
             Alert alert;
 
+
             if (purchase_flowerID.getSelectionModel().getSelectedItem() == null
                     || purchase_flowerName.getSelectionModel().getSelectedItem() == null
-                    || qty == 0){
+                    || qty == 0) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Please choose the product first");
                 alert.showAndWait();
-            }else {
+            } else {
                 double priceData = 0;
-                double totalPrice ;
+                double totalPrice;
 
-                String checkPrice = "SELECT name, price FROM flowers WHERE name = '"+
-                        purchase_flowerName.getSelectionModel().getSelectedItem() +"'";
+                String checkPrice = "SELECT name, price FROM flowers WHERE name = '"
+                        + purchase_flowerName.getSelectionModel().getSelectedItem() + "'";
 
                 statement = connect.createStatement();
                 result = statement.executeQuery(checkPrice);
@@ -682,29 +699,24 @@ public dashboardController(){}
                 prepare.setString(3, (String) purchase_flowerName.getSelectionModel().getSelectedItem());
                 prepare.setString(4, String.valueOf(qty));
 
-                totalPrice = (priceData * qty);
-
+                totalPrice = priceData * qty;
                 prepare.setString(5, String.valueOf(totalPrice));
 
                 java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(new java.util.Date().getTime());
                 prepare.setTimestamp(6, sqlTimestamp);
 
-
+                prepare.setString(7, fullName);
 
                 prepare.executeUpdate();
 
                 purchaseShowListData();
-
                 purchaseDisplayTotal();
-
-
-
             }
 
-        }catch (Exception e) {e.printStackTrace();}
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
     public void purchasePay() {
 
         String sql = "INSERT INTO customer_info (customerId, total, date) VALUES(?,?,?)";
@@ -855,50 +867,67 @@ public dashboardController(){}
         qty = purchase_quantity.getValue();
     }
 
-    public ObservableList<CustomerData> purchaseListData() {
+
+    public ObservableList<CustomerOrder> purchaseListData() {
         purchaseCustomerId();
 
-        ObservableList<CustomerData> listData = FXCollections.observableArrayList();
-
-        String sql = "SELECT * FROM customer WHERE customerId = '"+ customerId +"'";
+        ObservableList<CustomerOrder> listData = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM customer WHERE customerId = ?";
 
         connect = Database.connectDb();
 
         try {
             prepare = connect.prepareStatement(sql);
+            prepare.setInt(1, customerId);
             result = prepare.executeQuery();
 
-            CustomerData customer;
+
 
             while (result.next()) {
-                customer = new CustomerData(result.getInt("customerId")
-                        , result.getInt("flowerId")
-                        , result.getString("name")
-                        , result.getInt("quantity")
-                        , result.getDouble("price")
-                        , result.getDate("date")
-                        , result.getString("fullName"));
+
+
+                CustomerOrder customer = new CustomerOrder(
+                        result.getInt("customerId"),
+                        result.getInt("flowerId"),
+                        result.getString("name"),
+                        result.getInt("quantity"),
+                        result.getDouble("price"),
+                        result.getDate("date"),
+                        result.getString("fullName")
+                );
 
                 listData.add(customer);
             }
 
-        }catch (Exception e) {e.printStackTrace();
-        }return listData;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (result != null) result.close();
+                if (prepare != null) prepare.close();
+                if (connect != null) connect.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return listData;
+
     }
 
-    private ObservableList<CustomerData> purchaseListD;
+    private ObservableList<CustomerOrder> purchaseListD;
     public void purchaseShowListData() {
 
-        purchaseListD =  purchaseListData();
+
+        purchaseListD = purchaseListData();
+
 
         purchase_col_flowerID.setCellValueFactory(new PropertyValueFactory<>("flowerId"));
         purchase_col_flowerName.setCellValueFactory(new PropertyValueFactory<>("name"));
         purchase_col_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         purchase_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-
         purchase_tableView.setItems(purchaseListD);
-
     }
 
     private int customerId;
@@ -1351,10 +1380,8 @@ public dashboardController(){}
         // Получаваме данните за клиентите
         ObservableList<Client> availableClients = availableClientsData();
 
-
         // Проверка за налични клиенти
         if (availableClients == null || availableClients.isEmpty()) {
-
             purchase_clientData.getItems().clear(); // Осигуряване, че ComboBox е празен
             return; // Спиране на метода, ако няма клиенти
         }
@@ -1365,30 +1392,34 @@ public dashboardController(){}
         // Добавяме клиентите в ComboBox
         purchase_clientData.getItems().addAll(availableClients);
 
-
         // Настройваме StringConverter
-
         purchase_clientData.setConverter(new StringConverter<Client>() {
             @Override
             public String toString(Client client) {
                 if (client == null) {
                     return "";
                 }
-                return client.getFullName();//client.getFirstName() + " " + client.getFathersName() + " " + client.getLastName();
+                return client.getFullName(); // Връщаме пълното име на клиента
             }
 
             @Override
             public Client fromString(String string) {
-                return null;
+                return null; // Може да добавите логика, ако е необходимо
             }
         });
 
         purchase_clientData.setOnAction(event -> {
             if (purchase_clientData.getValue() != null) {
                 Client selectedClient = purchase_clientData.getValue();
+                String fullName = selectedClient.getFullName(); // Вземете пълното име на избрания клиент
+
+                // Извикайте purchaseListData с пълното име
+                ObservableList<CustomerOrder> orders = purchaseListData();
+                // Тук можете да направите нещо с orders, например да ги покажете в UI
             }
         });
     }
+
     public void clearClientFieldInPurchase(){
 
         purchase_clientData.getItems().clear();
@@ -1516,14 +1547,12 @@ public dashboardController(){}
         purchaseFlowerName();
         purchaseSpinner();
         purchaseDisplayTotal();
+
         selectClientInPurchase();
 
 
         clientsShowListData();
         clientSearch();
-
-
-
 
 
 
