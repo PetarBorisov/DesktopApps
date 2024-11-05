@@ -257,6 +257,7 @@
                                           <Button fx:id="purchase_payBtn" layoutX="427.0" layoutY="119.0" mnemonicParsing="false" onAction="#purchasePay" prefHeight="50.0" prefWidth="426.0" styleClass="add-btn" stylesheets="@../css/dashboardDesign.css" text="Pay" />
                                           <Button fx:id="purchase_addCart" layoutX="32.0" layoutY="137.0" mnemonicParsing="false" onAction="#purchaseAddToCart" prefHeight="31.0" prefWidth="101.0" styleClass="add-btn" stylesheets="@../../../../../DesktopApps/Flower_Shop/src/main/resources/css/dashboardDesign.css" text="Add to Cart" />
                                           <ComboBox fx:id="purchase_clientData" layoutX="510.0" layoutY="36.0" onAction="#selectClientInPurchase" prefHeight="68.0" prefWidth="345.0" promptText="Choose..." style="-fx-font-size: 22px;" styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
+                                          <Button fx:id="purchase_clearCart" layoutX="178.0" layoutY="137.0" mnemonicParsing="false" onAction="#deleteLastItemInCart" prefHeight="31.0" prefWidth="101.0" styleClass="add-btn" stylesheets="@../../../../../DesktopApps/Flower_Shop/src/main/resources/css/dashboardDesign.css" text="Clear Cart" textFill="#d94a23" />
 
                                        </children>
                                     </AnchorPane>
