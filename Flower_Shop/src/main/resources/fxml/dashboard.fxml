@@ -244,12 +244,12 @@
                                           <ComboBox fx:id="purchase_flowerName" layoutX="105.0" layoutY="60.0" onAction="#purchaseFlowerName" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
                                           <Spinner fx:id="purchase_quantity" layoutX="106.0" layoutY="93.0" onMouseClicked="#purchaseQuantity" prefHeight="26.0" prefWidth="123.0" styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
                                           <Label layoutX="48.0" layoutY="97.0" text="Quantity:" />
-                                          <Label layoutX="369.0" layoutY="55.0" text="Total:">
+                                          <Label layoutX="288.0" layoutY="56.0" text="Total:">
                                              <font>
-                                                <Font size="18.0" />
+                                                <Font size="24.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="purchase_total" layoutX="424.0" layoutY="55.0" prefHeight="27.0" prefWidth="142.0" text="\$0.0">
+                                          <Label fx:id="purchase_total" layoutX="355.0" layoutY="60.0" prefHeight="27.0" prefWidth="142.0" text="BGN   0.0">
                                              <font>
                                                 <Font name="Arial Bold" size="20.0" />
                                              </font>
@@ -262,10 +262,10 @@
                                     </AnchorPane>
                                     <TableView fx:id="purchase_tableView" layoutX="6.0" layoutY="195.0" prefHeight="306.0" prefWidth="862.0">
                                        <columns>
-                                          <TableColumn fx:id="purchase_col_flowerID" prefWidth="114.4000244140625" text="Flower ID" />
-                                          <TableColumn fx:id="purchase_col_flowerName" prefWidth="347.1999816894531" text="Flower Name" />
-                                          <TableColumn fx:id="purchase_col_quantity" prefWidth="197.5999755859375" text="Quantity" />
-                                          <TableColumn fx:id="purchase_col_price" prefWidth="201.60003662109375" text="Price" />
+                                          <TableColumn fx:id="purchase_col_flowerID" prefWidth="86.40000915527344" text="Flower ID" />
+                                          <TableColumn fx:id="purchase_col_flowerName" prefWidth="315.1999816894531" text="Flower Name" />
+                                          <TableColumn fx:id="purchase_col_quantity" prefWidth="180.0" text="Quantity" />
+                                          <TableColumn fx:id="purchase_col_price" prefWidth="273.60003662109375" text="Price" />
                                        </columns>
                                     </TableView>
                                  </children>
