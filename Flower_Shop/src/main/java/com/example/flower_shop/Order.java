@@ -6,12 +6,12 @@ import java.util.List;
 public class Order {
 
     private Integer id;
-    private CustomerData customer;
+    private CustomerOrder customer;
     private List<FlowersData> flowers;
     private LocalDate date;
     private Double totalPrice;
 
-    public Order(Integer id, CustomerData customer, List<FlowersData> flowers, LocalDate date, Double totalPrice) {
+    public Order(Integer id, CustomerOrder customer, List<FlowersData> flowers, LocalDate date, Double totalPrice) {
         this.id = id;
         this.customer = customer;
         this.flowers = flowers;
@@ -27,11 +27,11 @@ public class Order {
         this.id = id;
     }
 
-    public CustomerData getCustomer() {
+    public CustomerOrder getCustomer() {
         return customer;
     }
 
-    public void setCustomer(CustomerData customer) {
+    public void setCustomer(CustomerOrder customer) {
         this.customer = customer;
     }
 
