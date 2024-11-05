@@ -77,12 +77,6 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 if (result.next()) {
 
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully Login!");
-                    alert.showAndWait();
-
                     GetData.username = username.getText();
 
                     // Затваряне на текущия прозорец и отваряне на новия
