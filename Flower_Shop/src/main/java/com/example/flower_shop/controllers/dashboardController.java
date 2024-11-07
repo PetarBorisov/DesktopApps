@@ -1492,29 +1492,83 @@ public dashboardController(){}
         purchase_clientData.getItems().clear();
         purchase_clientData.setValue(null);
     }
-    // Метод за генериране на текст за разписката
-    private String generateReceiptText() {
-        StringBuilder receipt = new StringBuilder();
 
+    // Метод за генериране на текст за разписката
+    public List<CustomerOrder> getAllOrders(int customerId) {
+        List<CustomerOrder> orders = new ArrayList<>();
+        String sql = "SELECT * FROM customer WHERE customerId = ? ORDER BY date DESC";
+
+        try (Connection connect = Database.connectDb();
+             PreparedStatement prepare = connect.prepareStatement(sql)) {
+
+            prepare.setInt(1, customerId);  // Настройваме параметъра customerId
+            try (ResultSet result = prepare.executeQuery()) {
+                while (result.next()) {
+                    // Всеки ред от резултата съдържа един артикул от поръчката
+                    CustomerOrder order = new CustomerOrder(
+                            result.getInt("customerId"),
+                            result.getInt("flowerId"),
+                            result.getString("name"),
+                            result.getInt("quantity"),
+                            result.getDouble("price"),
+                            result.getDate("date"),
+                            result.getString("fullName")
+                    );
+                    orders.add(order);  // Добавяме всеки артикул в списъка
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
+    public String generateReceiptText(int customerId) {
+        // Вземаме всички артикули за последната поръчка
+        List<CustomerOrder> orders = getAllOrders(customerId);
+
+        // Проверка дали има поръчки
+        if (orders.isEmpty()) {
+            return "Няма налични поръчки за този клиент.";
+        }
+
+        // Създаваме текст за разписката
+        StringBuilder receipt = new StringBuilder();
         receipt.append("СТОКОВА РАЗПИСКА №1234\n");
         receipt.append("Дата: ").append(LocalDate.now()).append("\n");
-        receipt.append("Доставчик: Магазин за цветя\n");
-        receipt.append("Клиент: Иван Иванов\n\n");
+
+
+        receipt.append("Доставчик: Dafi Flowers\n");
+
+
+        receipt.append("Клиент: ").append(orders.get(0).getFullName()).append("\n\n");
 
         receipt.append(String.format("%-4s %-20s %-12s %-12s %-12s\n", "№", "Описание на стоката", "Количество", "Ед. цена", "Обща цена"));
         receipt.append("-------------------------------------------------------------\n");
 
-        // Добавяне на примерни артикули
-        receipt.append(String.format("%-4d %-20s %-12d %-12.2f %-12.2f\n", 1, "Рози", 10, 2.5, 25.0));
-        receipt.append(String.format("%-4d %-20s %-12d %-12.2f %-12.2f\n", 2, "Лалета", 15, 1.8, 27.0));
-        receipt.append(String.format("%-4d %-20s %-12d %-12.2f %-12.2f\n", 3, "Орхидеи", 5, 5.0, 25.0));
+        double totalPrice = 0;
+        int itemNo = 1;
+
+        // Преброяване на всички артикули
+        for (CustomerOrder order : orders) {
+            double itemTotal = order.getPrice();
+            totalPrice += itemTotal;
+
+            receipt.append(String.format("%-4d %-20s %-12d %-12.2f %-12.2f\n",
+                    itemNo++,
+                    order.getName(),
+                    order.getQuantity(),
+                    order.getPrice(),
+                    itemTotal
+            ));
+        }
 
         // Обща сума
         receipt.append("\n");
-        receipt.append(String.format("%-4s %-20s %-12s %-12s %-12.2f\n", "", "", "", "Общо:", 77.0));
+        receipt.append(String.format("%-4s %-20s %-12s %-12s %-12.2f\n", "", "", "", "Общо:", totalPrice));
 
-        receipt.append("\nДоставено от: Петър Петров\n");
-        receipt.append("Получено от: Иван Иванов\n");
+        receipt.append("\nДоставено от: Петко Георгиев\n");
+        receipt.append("Получено от: ").append(orders.get(0).getFullName()).append("\n");
 
         return receipt.toString();
     }
@@ -1524,7 +1578,7 @@ public dashboardController(){}
         receiptStage.setTitle("Стокова разписка");
 
         // Примерни данни за разписката
-        String receiptText = generateReceiptText();
+        String receiptText = generateReceiptText(customerId);
 
         // TextArea за визуализация на разписката
         TextArea receiptArea = new TextArea(receiptText);
@@ -1533,7 +1587,7 @@ public dashboardController(){}
         receiptArea.setStyle("-fx-font-family: monospace; -fx-font-size: 14;");
 
         // Добавяне на TextArea в сцената на новия прозорец
-        Scene scene = new Scene(new StackPane(receiptArea), 400, 500);
+        Scene scene = new Scene(new StackPane(receiptArea), 800, 500);
         receiptStage.setScene(scene);
         receiptStage.show();
     }
