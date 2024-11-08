@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.print.PrinterJob;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -244,6 +245,12 @@ public dashboardController(){}
 
     @FXML
     private Button client_updateBtn;
+
+    @FXML
+    private TextArea receiptTextArea;
+
+
+
 
 
 
@@ -925,8 +932,10 @@ public dashboardController(){}
 
     private SpinnerValueFactory<Integer> spinner;
     public void purchaseSpinner() {
-        spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0);
+        spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, 1);
         purchase_quantity.setValueFactory(spinner);
+
+        purchase_quantity.setEditable(true);
     }
 
     private int qty;
@@ -1289,7 +1298,7 @@ public dashboardController(){}
 
             if (option.isPresent() && option.get().equals(ButtonType.OK)) {
 
-               
+
                 String fullName = client_firstName.getText() + " " + client_fathersName.getText() + " " + client_lastName.getText();
 
                 // Подготовка на SQL заявката за актуализация
@@ -1441,16 +1450,18 @@ public dashboardController(){}
         client_fathersName.setText(client.getFathersName());
         client_lastName.setText(client.getLastName());
         client_phoneNumber.setText(client.getPhoneNumber());
+
+        clientsShowListData();
     }
 
     public void selectClientInPurchase() {
-        // Получаваме данните за клиентите
+
         ObservableList<Client> availableClients = availableClientsData();
 
         // Проверка за налични клиенти
         if (availableClients == null || availableClients.isEmpty()) {
             purchase_clientData.getItems().clear(); // Осигуряване, че ComboBox е празен
-            return; // Спиране на метода, ако няма клиенти
+            return;
         }
 
         // Изчистване на текущите елементи в ComboBox
@@ -1466,7 +1477,7 @@ public dashboardController(){}
                 if (client == null) {
                     return "";
                 }
-                return client.getFullName(); // Връщаме пълното име на клиента
+                return client.getFullName();
             }
 
             @Override
@@ -1534,11 +1545,12 @@ public dashboardController(){}
 
         // Създаваме текст за разписката
         StringBuilder receipt = new StringBuilder();
-        receipt.append("СТОКОВА РАЗПИСКА №1234\n");
-        receipt.append("Дата: ").append(LocalDate.now()).append("\n");
+        receipt.append("СТОКОВА РАЗПИСКА № ").append(customerId).append("\n\n");
+        receipt.append("Дата: ").append(LocalDate.now()).append("\n\n");
+        receipt.append("-------------------------------------------------------------\n");
 
 
-        receipt.append("Доставчик: Dafi Flowers\n");
+        receipt.append("Доставчик: Dafi Flowers\n\n");
 
 
         receipt.append("Клиент: ").append(orders.get(0).getFullName()).append("\n\n");
@@ -1563,7 +1575,7 @@ public dashboardController(){}
             ));
         }
 
-        // Обща сума
+
         receipt.append("\n");
         receipt.append(String.format("%-4s %-20s %-12s %-12s %-12.2f\n", "", "", "", "Общо:", totalPrice));
 
@@ -1572,6 +1584,13 @@ public dashboardController(){}
 
         return receipt.toString();
     }
+
+    // Метод за затваряне на прозореца
+    public void closeReceipt() {
+        // Тук може да затвориш прозореца или да извършиш друго действие
+        // Например: ((Stage) closeButton.getScene().getWindow()).close();
+    }
+
 
     public void displayReceipt() {
         Stage receiptStage = new Stage(); // Нов прозорец за разписката
