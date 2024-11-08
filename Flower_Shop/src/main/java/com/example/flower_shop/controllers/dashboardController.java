@@ -1112,7 +1112,7 @@ public dashboardController(){}
             home_form.setVisible(false);
             availableFlowers_form.setVisible(false);
             purchase_form.setVisible(false);
-            clients_form.setVisible(true);  // Показване на формата за клиенти
+            clients_form.setVisible(true);
 
             clients_Btn.setStyle(" -fx-background-color:linear-gradient(to bottom right, #bb1a3a, #722327);");
             home_btn.setStyle("-fx-background-color: transparent");
@@ -1221,13 +1221,13 @@ public dashboardController(){}
 
 
                 prepare = connect.prepareStatement(sql);
-                prepare.setInt(1, client.getId()); // ID
-                prepare.setString(2, client.getFirstName()); // First Name
-                prepare.setString(3, client.getFathersName()); // Father's Name
-                prepare.setString(4, client.getLastName()); // Last Name
-                prepare.setString(5, client.getPhoneNumber()); // Phone Number
+                prepare.setInt(1, client.getId());
+                prepare.setString(2, client.getFirstName());
+                prepare.setString(3, client.getFathersName());
+                prepare.setString(4, client.getLastName());
+                prepare.setString(5, client.getPhoneNumber());
 
-                prepare.setString(6, client.getFullName()); // Full Name
+                prepare.setString(6, client.getFullName());
 
                 prepare.executeUpdate();
 
@@ -1249,7 +1249,7 @@ public dashboardController(){}
     }
 
     public void updateClients() {
-        // SQL заявка за актуализация на клиентски данни, включително fullName
+
         String updateSql = "UPDATE clients SET firstName = ?, fathersName = ?, lastName = ?, phoneNumber = ?, fullName = ? WHERE id = ?";
         connect = Database.connectDb();
 
@@ -1289,7 +1289,7 @@ public dashboardController(){}
 
             if (option.isPresent() && option.get().equals(ButtonType.OK)) {
 
-                // Генериране на пълното име (fullName)
+               
                 String fullName = client_firstName.getText() + " " + client_fathersName.getText() + " " + client_lastName.getText();
 
                 // Подготовка на SQL заявката за актуализация
