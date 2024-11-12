@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.print.PrinterJob;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,6 +21,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -35,6 +38,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.util.*;
+
 
 public class dashboardController implements Initializable {
 
@@ -932,7 +936,7 @@ public dashboardController(){}
 
     private SpinnerValueFactory<Integer> spinner;
     public void purchaseSpinner() {
-        spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, 1);
+        spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, 0);
         purchase_quantity.setValueFactory(spinner);
 
         purchase_quantity.setEditable(true);
@@ -1098,10 +1102,13 @@ public dashboardController(){}
             availableFlowersSearch();
 
         } else if (event.getSource() == purchase_btn) {
+
             home_form.setVisible(false);
             availableFlowers_form.setVisible(false);
             purchase_form.setVisible(true);
             clients_form.setVisible(false);
+
+            selectClientInPurchase();
 
             purchase_btn.setStyle(" -fx-background-color:linear-gradient(to bottom right, #bb1a3a, #722327);");
             availableFlowers_btn.setStyle("-fx-background-color: transparent");
@@ -1545,13 +1552,13 @@ public dashboardController(){}
 
         // Създаваме текст за разписката
         StringBuilder receipt = new StringBuilder();
+        receipt.append("\n");
         receipt.append("СТОКОВА РАЗПИСКА № ").append(customerId).append("\n\n");
         receipt.append("Дата: ").append(LocalDate.now()).append("\n\n");
-        receipt.append("-------------------------------------------------------------\n");
-
-
         receipt.append("Доставчик: Dafi Flowers\n\n");
 
+
+        receipt.append("-------------------------------------------------------------\n");
 
         receipt.append("Клиент: ").append(orders.get(0).getFullName()).append("\n\n");
 
@@ -1585,11 +1592,33 @@ public dashboardController(){}
         return receipt.toString();
     }
 
-    // Метод за затваряне на прозореца
-    public void closeReceipt() {
-        // Тук може да затвориш прозореца или да извършиш друго действие
-        // Например: ((Stage) closeButton.getScene().getWindow()).close();
-    }
+    public void printReceipt() {
+        // Вземаме текста за разписката
+        String receiptText = receiptTextArea.getText();
+
+        if (receiptText.isEmpty()) {
+            // Ако няма разписка, не правим нищо
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText(null);
+            alert.setContentText("Няма разписка за печат.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Създаваме текстов елемент за печат
+        Text textForPrint = new Text(receiptText);
+
+        // Създаваме принтерски джоб
+        PrinterJob printerJob = PrinterJob.createPrinterJob();
+
+        if (printerJob != null && printerJob.showPrintDialog(null)) {
+            // Печатаме текста
+            boolean printed = printerJob.printPage(textForPrint);
+
+            if (printed) {
+                printerJob.endJob();
+            }}}
 
 
     public void displayReceipt() {
@@ -1599,17 +1628,30 @@ public dashboardController(){}
         // Примерни данни за разписката
         String receiptText = generateReceiptText(customerId);
 
-        // TextArea за визуализация на разписката
-        TextArea receiptArea = new TextArea(receiptText);
-        receiptArea.setWrapText(true);
-        receiptArea.setEditable(false);
-        receiptArea.setStyle("-fx-font-family: monospace; -fx-font-size: 14;");
+        // Инициализация на TextArea за визуализация на разписката
+        receiptTextArea = new TextArea(receiptText); // Премахваме локалната променлива
+        receiptTextArea.setWrapText(true);
+        receiptTextArea.setEditable(false);
+        receiptTextArea.setStyle("-fx-font-family: monospace; -fx-font-size: 14;");
 
-        // Добавяне на TextArea в сцената на новия прозорец
-        Scene scene = new Scene(new StackPane(receiptArea), 800, 500);
+        // Бутон за печат
+        Button printButton = new Button("Печат");
+        printButton.setOnAction(e -> printReceipt()); // Не предаваме параметър
+
+        // Подреждане на TextArea и бутона с BorderPane
+        BorderPane layout = new BorderPane();
+        layout.setCenter(receiptTextArea);
+
+        // Контейнер за позициониране на бутона долу вдясно
+        HBox buttonContainer = new HBox(printButton);
+      //  buttonContainer.setAlignment(Pos.BOTTOM_RIGHT);
+        buttonContainer.setPadding(new Insets(10)); // Отстояние от краищата на прозореца
+
+        layout.setBottom(buttonContainer);
+
+        Scene scene = new Scene(layout, 800, 500);
         receiptStage.setScene(scene);
-        receiptStage.show();
-    }
+        receiptStage.show();}
 
     private double x = 0;
     private double y = 0;
