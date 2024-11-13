@@ -20,11 +20,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -1558,12 +1557,12 @@ public dashboardController(){}
         receipt.append("Доставчик: Dafi Flowers\n\n");
 
 
-        receipt.append("-------------------------------------------------------------\n");
+        receipt.append("----------------------------------------------------------------------------------------\n");
 
         receipt.append("Клиент: ").append(orders.get(0).getFullName()).append("\n\n");
 
-        receipt.append(String.format("%-4s %-20s %-12s %-12s %-12s\n", "№", "Описание на стоката", "Количество", "Ед. цена", "Обща цена"));
-        receipt.append("-------------------------------------------------------------\n");
+        receipt.append(String.format("%-4s %-25s %-13s %-11s %-15s\n", "№", "Описание на стоката", "Количество", "Ед. цена", "Обща цена"));
+        receipt.append("----------------------------------------------------------------------------------------\n");
 
         double totalPrice = 0;
         int itemNo = 1;
@@ -1573,7 +1572,7 @@ public dashboardController(){}
             double itemTotal = order.getPrice();
             totalPrice += itemTotal;
 
-            receipt.append(String.format("%-4d %-20s %-12d %-12.2f %-12.2f\n",
+            receipt.append(String.format("%-4d %-30s %-10d %-12.2f %-12.2f\n",
                     itemNo++,
                     order.getName(),
                     order.getQuantity(),
@@ -1583,7 +1582,7 @@ public dashboardController(){}
         }
 
 
-        receipt.append("\n");
+        receipt.append("\n\n");
         receipt.append(String.format("%-4s %-20s %-12s %-12s %-12.2f\n", "", "", "", "Общо:", totalPrice));
 
         receipt.append("\nДоставено от: Петко Георгиев\n");
@@ -1606,19 +1605,27 @@ public dashboardController(){}
             return;
         }
 
-        // Създаваме текстов елемент за печат
+        // Създаваме TextFlow, който поддържа много редове с моноширок шрифт
+        TextFlow textFlow = new TextFlow();
         Text textForPrint = new Text(receiptText);
+        textForPrint.setFont(Font.font("Courier New", 12));  // Използваме моноширок шрифт
+
+        // Добавяме текста в TextFlow
+        textFlow.getChildren().add(textForPrint);
+        textFlow.setPrefWidth(Region.USE_COMPUTED_SIZE);  // Автоматично да се разширява според ширината на текста
 
         // Създаваме принтерски джоб
         PrinterJob printerJob = PrinterJob.createPrinterJob();
 
         if (printerJob != null && printerJob.showPrintDialog(null)) {
             // Печатаме текста
-            boolean printed = printerJob.printPage(textForPrint);
+            boolean printed = printerJob.printPage(textFlow);
 
             if (printed) {
                 printerJob.endJob();
-            }}}
+            }
+        }
+    }
 
 
     public void displayReceipt() {
@@ -1649,7 +1656,7 @@ public dashboardController(){}
 
         layout.setBottom(buttonContainer);
 
-        Scene scene = new Scene(layout, 800, 500);
+        Scene scene = new Scene(layout, 900, 500);
         receiptStage.setScene(scene);
         receiptStage.show();}
 
