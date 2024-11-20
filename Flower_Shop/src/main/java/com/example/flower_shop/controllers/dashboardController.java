@@ -1552,14 +1552,24 @@ public dashboardController(){}
         // Създаваме текст за разписката
         StringBuilder receipt = new StringBuilder();
         receipt.append("\n");
-        receipt.append("СТОКОВА РАЗПИСКА № ").append(customerId).append("\n\n");
-        receipt.append("Дата: ").append(LocalDate.now()).append("\n\n");
-        receipt.append("Доставчик: Dafi Flowers\n\n");
+        receipt.append("             СТОКОВА РАЗПИСКА ЗА ПОЛУЧЕНИ СТОКИ № ").append(customerId).append("\n\n\n\n");
 
+
+        String fullName = orders.get(0).getFullName();
+        String[] nameParts = fullName.split(" "); // разделяме пълното име на части
+
+// Добавяме "Получено от:" и "Доставчик:" на един и същ ред
+        receipt.append("Получено от: ");
+        receipt.append(String.format("%45s\n\n%58s", "Доставчик: ", "Dafi Flowers")).append("\n");
+
+// Добавяме всяко име на нов ред, под "Получено от:"
+        for (String part : nameParts) {
+            receipt.append("   ").append(part).append("\n");// отместване за подравняване под "Получено от:"
+
+        }
+        receipt.append("\n");
 
         receipt.append("----------------------------------------------------------------------------------------\n");
-
-        receipt.append("Клиент: ").append(orders.get(0).getFullName()).append("\n\n");
 
         receipt.append(String.format("%-4s %-25s %-13s %-11s %-15s\n", "№", "Описание на стоката", "Количество", "Ед. цена", "Обща цена"));
         receipt.append("----------------------------------------------------------------------------------------\n");
@@ -1576,7 +1586,7 @@ public dashboardController(){}
                     itemNo++,
                     order.getName(),
                     order.getQuantity(),
-                    order.getPrice(),
+                    order.getPrice() / order.getQuantity(),
                     itemTotal
             ));
         }
@@ -1585,8 +1595,10 @@ public dashboardController(){}
         receipt.append("\n\n");
         receipt.append(String.format("%-4s %-20s %-12s %-12s %-12.2f\n", "", "", "", "Общо:", totalPrice));
 
-        receipt.append("\nДоставено от: Петко Георгиев\n");
-        receipt.append("Получено от: ").append(orders.get(0).getFullName()).append("\n");
+        receipt.append("\nДоставено от: Петко Георгиев\n\n");
+        receipt.append("Клиент: ");
+
+        receipt.append("                                     Дата: ").append(LocalDate.now()).append("\n\n");
 
         return receipt.toString();
     }
