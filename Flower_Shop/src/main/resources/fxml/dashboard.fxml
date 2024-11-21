@@ -60,22 +60,22 @@
                         <Button fx:id="home_btn" layoutX="10.0" layoutY="195.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboardDesign.css" text="Home" />
                         <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="70.0" layoutY="91.0" size="6em" text="" wrappingWidth="57.600006103515625" />
                         <FontAwesomeIcon fill="#6e9105" glyphName="HOME" layoutX="147.0" layoutY="222.0" size="1.5em" />
-                        <Button fx:id="availableFlowers_btn" layoutX="10.0" layoutY="241.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboardDesign.css" text="AviliableFlowers" />
+                        <Button fx:id="availableFlowers_btn" layoutX="10.0" layoutY="241.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboardDesign.css" text="Добавяне Цветя" />
                         <FontAwesomeIcon fill="#6e9105" glyphName="CHECK_CIRCLE" layoutX="147.0" layoutY="268.0" size="1.5em" />
-                        <Button fx:id="purchase_btn" layoutX="10.0" layoutY="287.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboardDesign.css" text="Purchase" />
+                        <Button fx:id="purchase_btn" layoutX="10.0" layoutY="287.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboardDesign.css" text="Поръчки" />
                         <FontAwesomeIcon fill="#6e9105" glyphName="SHOPPING_CART" layoutX="146.0" layoutY="314.0" size="1.5em" />
-                        <Button fx:id="logoutBtn" layoutX="14.0" layoutY="493.0" mnemonicParsing="false" onAction="#logout" prefHeight="32.0" prefWidth="34.0" stylesheets="@../css/dashboardDesign.css">
+                        <Button fx:id="logoutBtn" layoutX="14.0" layoutY="493.0" mnemonicParsing="false" onAction="#logout" prefHeight="32.0" prefWidth="37.0" stylesheets="@../css/dashboardDesign.css">
                            <styleClass>
                               <String fx:value="logout" />
                               <String fx:value="shadow" />
                            </styleClass></Button>
-                        <FontAwesomeIcon fill="#fff7f7" glyphName="SIGN_OUT" layoutX="17.0" layoutY="518.0" size="2em" wrappingWidth="27.08573341369629" />
-                        <Label layoutX="56.0" layoutY="500.0" text="Sign Out" textFill="WHITE">
+                        <FontAwesomeIcon fill="#fff7f7" glyphName="SIGN_OUT" layoutX="22.0" layoutY="518.0" size="2em" wrappingWidth="3.399993896484375" />
+                        <Label layoutX="56.0" layoutY="500.0" text="Изход" textFill="WHITE">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Button fx:id="clients_Btn" layoutX="10.0" layoutY="327.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboardDesign.css" text="Clients" />
+                        <Button fx:id="clients_Btn" layoutX="10.0" layoutY="327.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="45.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@../css/dashboardDesign.css" text="Добавяне Клиенти" />
                         <FontAwesomeIcon fill="#6e9105" glyphName="USERS" layoutX="147.0" layoutY="356.0" size="1.5em" />
                      </children>
                   </AnchorPane>
@@ -94,7 +94,7 @@
                                     <AnchorPane layoutX="14.0" layoutY="9.0" prefHeight="147.0" prefWidth="276.0" styleClass="card" stylesheets="@../css/dashboardDesign.css">
                                        <children>
                                           <FontAwesomeIcon fill="WHITE" glyphName="LEAF" layoutX="14.0" layoutY="95.0" size="5em" />
-                                          <Label layoutX="83.0" layoutY="104.0" text="Aviliable Flowers" textFill="WHITE">
+                                          <Label layoutX="83.0" layoutY="104.0" text="Добавени Цветя" textFill="WHITE">
                                              <font>
                                                 <Font name="Tahoma" size="15.0" />
                                              </font>
@@ -109,7 +109,7 @@
                                     <AnchorPane layoutX="304.0" layoutY="9.0" prefHeight="147.0" prefWidth="277.0" styleClass="card" stylesheets="@../css/dashboardDesign.css">
                                        <children>
                                           <FontAwesomeIcon fill="WHITE" glyphName="MONEY" layoutX="7.0" layoutY="100.0" size="5em" />
-                                          <Label layoutX="76.0" layoutY="109.0" text="Total Income" textFill="WHITE">
+                                          <Label layoutX="76.0" layoutY="109.0" text="Тотал Пара" textFill="WHITE">
                                              <font>
                                                 <Font name="Tahoma" size="15.0" />
                                              </font>
@@ -124,7 +124,7 @@
                                     <AnchorPane layoutX="597.0" layoutY="9.0" prefHeight="147.0" prefWidth="274.0" styleClass="card" stylesheets="@../css/dashboardDesign.css">
                                        <children>
                                           <FontAwesomeIcon fill="WHITE" glyphName="USERS" layoutX="7.0" layoutY="99.0" size="5em" />
-                                          <Label layoutX="76.0" layoutY="108.0" text="Total Customers" textFill="WHITE">
+                                          <Label layoutX="76.0" layoutY="108.0" text="Общо Клиенти" textFill="WHITE">
                                              <font>
                                                 <Font name="Tahoma" size="15.0" />
                                              </font>
@@ -144,7 +144,7 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-                                    <BarChart fx:id="home_chart" layoutX="104.0" layoutY="4.0" prefHeight="322.0" prefWidth="670.0" title="Income Data Chart">
+                                    <BarChart fx:id="home_chart" layoutX="104.0" layoutY="4.0" prefHeight="322.0" prefWidth="670.0" title="Данни за покупки">
                                        <xAxis>
                                           <CategoryAxis side="BOTTOM" />
                                        </xAxis>
