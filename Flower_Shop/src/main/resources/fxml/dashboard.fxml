@@ -47,7 +47,7 @@
                <left>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="nav-form" stylesheets="@../css/dashboardDesign.css" BorderPane.alignment="CENTER">
                      <children>
-                        <Text fill="WHITE" layoutX="59.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome,">
+                        <Text fill="WHITE" layoutX="59.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Добре дошли,">
                            <font>
                               <Font size="18.0" />
                            </font></Text>
