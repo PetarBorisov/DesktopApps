@@ -1604,11 +1604,11 @@ public dashboardController(){}
     }
 
     public void printReceipt() {
-        // Вземаме текста за разписката
+
         String receiptText = receiptTextArea.getText();
 
         if (receiptText.isEmpty()) {
-            // Ако няма разписка, не правим нищо
+
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
             alert.setHeaderText(null);
