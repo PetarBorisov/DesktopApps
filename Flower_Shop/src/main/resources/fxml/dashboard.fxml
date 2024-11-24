@@ -47,11 +47,11 @@
                <left>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="nav-form" stylesheets="@../css/dashboardDesign.css" BorderPane.alignment="CENTER">
                      <children>
-                        <Text fill="WHITE" layoutX="59.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Добре дошли,">
+                        <Text fill="WHITE" layoutX="36.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Добре дошли," wrappingWidth="127.40877914428711">
                            <font>
                               <Font size="18.0" />
                            </font></Text>
-                        <Text fx:id="username" fill="WHITE" layoutX="48.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Petar Borisov" textAlignment="JUSTIFY">
+                        <Text fx:id="username" fill="WHITE" layoutX="43.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Petar Borisov" textAlignment="JUSTIFY">
                            <font>
                               <Font name="Tahoma" size="18.0" />
                            </font>
@@ -156,7 +156,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="availableFlowers_form" layoutX="77.0" layoutY="102.0" prefHeight="537.6" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="availableFlowers_form" layoutX="77.0" layoutY="102.0" prefHeight="537.6" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="13.0" prefHeight="510.0" prefWidth="200.0" stylesheets="@../css/dashboardDesign.css">
                                  <styleClass>
@@ -171,32 +171,32 @@
                                        </styleClass>
                                        <children>
                                           <ImageView fx:id="aviailableFlowers_imageView" fitHeight="174.0" fitWidth="129.0" layoutX="4.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
-                                          <Button fx:id="aviailableFlowers_importBtn" layoutX="2.0" layoutY="151.0" mnemonicParsing="false" onAction="#availableFlowersInsertImage" prefHeight="20.0" prefWidth="129.0" styleClass="add-btn" stylesheets="@../css/dashboardDesign.css" text="Import" />
+                                          <Button fx:id="aviailableFlowers_importBtn" layoutX="2.0" layoutY="151.0" mnemonicParsing="false" onAction="#availableFlowersInsertImage" prefHeight="20.0" prefWidth="129.0" styleClass="add-btn" stylesheets="@../css/dashboardDesign.css" text="Избери" />
                                        </children>
                                     </AnchorPane>
-                                    <Label layoutX="13.0" layoutY="214.0" text="Flower ID:">
+                                    <Label layoutX="13.0" layoutY="214.0" text="Цвете ID:">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <TextField fx:id="aviailableFlowers_flowerID" layoutX="17.0" layoutY="234.0" prefHeight="26.0" prefWidth="168.0" styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
-                                    <Label layoutX="13.0" layoutY="260.0" text="Flower Name:">
+                                    <Label layoutX="13.0" layoutY="260.0" text="Име на цвете:">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
                                     <TextField fx:id="aviailableFlowers_flowerName" layoutX="18.0" layoutY="280.0" prefHeight="26.0" prefWidth="168.0" styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
-                                    <Label layoutX="14.0" layoutY="306.0" text="Status:">
+                                    <Label layoutX="14.0" layoutY="306.0" text="Статус :">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="aviailableFlowers_status" layoutX="16.0" layoutY="326.0" onAction="#availableFlowersStatus" prefHeight="26.0" prefWidth="170.0" promptText="Choose..." styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
+                                    <ComboBox fx:id="aviailableFlowers_status" layoutX="16.0" layoutY="326.0" onAction="#availableFlowersStatus" prefHeight="26.0" prefWidth="170.0" promptText="Избор...." styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
                                     <Button fx:id="aviailableFlowers_addBtn" layoutX="20.0" layoutY="423.0" mnemonicParsing="false" onAction="#availableFlowersAdd" prefHeight="26.0" prefWidth="75.0" styleClass="add-btn" stylesheets="@../css/dashboardDesign.css" text="Add" />
                                     <Button fx:id="aviailableFlowers_updateBtn" layoutX="110.0" layoutY="423.0" mnemonicParsing="false" onAction="#availableFlowersUpdate" prefHeight="26.0" prefWidth="75.0" styleClass="update-btn" stylesheets="@../css/dashboardDesign.css" text="Update" />
                                     <Button fx:id="aviailableFlowers_clearBtn" layoutX="21.0" layoutY="469.0" mnemonicParsing="false" onAction="#availableFlowersClear" prefHeight="26.0" prefWidth="75.0" styleClass="clear-btn" stylesheets="@../css/dashboardDesign.css" text="Clear" />
                                     <Button fx:id="aviailableFlowers_deleteBtn" layoutX="111.0" layoutY="469.0" mnemonicParsing="false" onAction="#availableFlowersDelete" prefHeight="26.0" prefWidth="75.0" styleClass="delete-btn" stylesheets="@../css/dashboardDesign.css" text="Delete" />
-                                    <Label layoutX="13.0" layoutY="352.0" text="Price:">
+                                    <Label layoutX="13.0" layoutY="352.0" text="Цена:">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -210,7 +210,7 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-                                    <TextField fx:id="aviailableFlowers_search" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="248.0" promptText="Search" styleClass="search" stylesheets="@../css/dashboardDesign.css" />
+                                    <TextField fx:id="aviailableFlowers_search" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="248.0" promptText="Търсене" styleClass="search" stylesheets="@../css/dashboardDesign.css" />
                                     <FontAwesomeIcon glyphName="SEARCH" layoutX="21.0" layoutY="31.0" />
                                     <TableView fx:id="aviailableFlowers_tableView" layoutX="8.0" layoutY="54.0" onMouseClicked="#availableFlowersSelect" prefHeight="446.0" prefWidth="636.0">
                                        <columns>
