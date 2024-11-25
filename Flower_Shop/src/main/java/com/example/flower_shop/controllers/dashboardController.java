@@ -535,7 +535,7 @@ public dashboardController(){}
 
     }
 
-    String listStatus[] = {"Available", "Not Available"};
+    String listStatus[] = {"Налично", "Няма Наличност"};
     public void availableFlowersStatus() {
 
         List<String> listS = new ArrayList<>();
