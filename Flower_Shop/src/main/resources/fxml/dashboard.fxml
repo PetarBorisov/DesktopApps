@@ -192,10 +192,10 @@
                                        </font>
                                     </Label>
                                     <ComboBox fx:id="aviailableFlowers_status" layoutX="16.0" layoutY="326.0" onAction="#availableFlowersStatus" prefHeight="26.0" prefWidth="170.0" promptText="Избор...." styleClass="textfield" stylesheets="@../css/dashboardDesign.css" />
-                                    <Button fx:id="aviailableFlowers_addBtn" layoutX="20.0" layoutY="423.0" mnemonicParsing="false" onAction="#availableFlowersAdd" prefHeight="26.0" prefWidth="75.0" styleClass="add-btn" stylesheets="@../css/dashboardDesign.css" text="Add" />
-                                    <Button fx:id="aviailableFlowers_updateBtn" layoutX="110.0" layoutY="423.0" mnemonicParsing="false" onAction="#availableFlowersUpdate" prefHeight="26.0" prefWidth="75.0" styleClass="update-btn" stylesheets="@../css/dashboardDesign.css" text="Update" />
-                                    <Button fx:id="aviailableFlowers_clearBtn" layoutX="21.0" layoutY="469.0" mnemonicParsing="false" onAction="#availableFlowersClear" prefHeight="26.0" prefWidth="75.0" styleClass="clear-btn" stylesheets="@../css/dashboardDesign.css" text="Clear" />
-                                    <Button fx:id="aviailableFlowers_deleteBtn" layoutX="111.0" layoutY="469.0" mnemonicParsing="false" onAction="#availableFlowersDelete" prefHeight="26.0" prefWidth="75.0" styleClass="delete-btn" stylesheets="@../css/dashboardDesign.css" text="Delete" />
+                                    <Button fx:id="aviailableFlowers_addBtn" layoutX="3.0" layoutY="423.0" mnemonicParsing="false" onAction="#availableFlowersAdd" prefHeight="26.0" prefWidth="93.0" styleClass="add-btn" stylesheets="@../css/dashboardDesign.css" text="Добавяне" />
+                                    <Button fx:id="aviailableFlowers_updateBtn" layoutX="103.0" layoutY="423.0" mnemonicParsing="false" onAction="#availableFlowersUpdate" prefHeight="26.0" prefWidth="93.0" styleClass="update-btn" stylesheets="@../css/dashboardDesign.css" text="Редакт." />
+                                    <Button fx:id="aviailableFlowers_clearBtn" layoutX="4.0" layoutY="469.0" mnemonicParsing="false" onAction="#availableFlowersClear" prefHeight="26.0" prefWidth="92.0" styleClass="clear-btn" stylesheets="@../css/dashboardDesign.css" text="Изчистване" />
+                                    <Button fx:id="aviailableFlowers_deleteBtn" layoutX="101.0" layoutY="469.0" mnemonicParsing="false" onAction="#availableFlowersDelete" prefHeight="26.0" prefWidth="94.0" styleClass="delete-btn" stylesheets="@../css/dashboardDesign.css" text="Изтриване" />
                                     <Label layoutX="13.0" layoutY="352.0" text="Цена:">
                                        <font>
                                           <Font size="14.0" />
@@ -214,10 +214,10 @@
                                     <FontAwesomeIcon glyphName="SEARCH" layoutX="21.0" layoutY="31.0" />
                                     <TableView fx:id="aviailableFlowers_tableView" layoutX="8.0" layoutY="54.0" onMouseClicked="#availableFlowersSelect" prefHeight="446.0" prefWidth="636.0">
                                        <columns>
-                                          <TableColumn fx:id="aviailableFlowers_col_flowerId" prefWidth="85.5999755859375" text="Flower ID" />
-                                          <TableColumn fx:id="aviailableFlowers_col_flowerName" prefWidth="229.60003662109375" text="Flower Name" />
-                                          <TableColumn fx:id="aviailableFlowers_col_status" prefWidth="202.4000244140625" text="Status" />
-                                          <TableColumn fx:id="aviailableFlowers_col_price" prefWidth="117.5999755859375" text="Price ($)" />
+                                          <TableColumn fx:id="aviailableFlowers_col_flowerId" prefWidth="85.5999755859375" text="Цвете ID" />
+                                          <TableColumn fx:id="aviailableFlowers_col_flowerName" prefWidth="229.60003662109375" text="Име на Цвете" />
+                                          <TableColumn fx:id="aviailableFlowers_col_status" prefWidth="202.4000244140625" text="Статус" />
+                                          <TableColumn fx:id="aviailableFlowers_col_price" prefWidth="117.5999755859375" text="Цена ($)" />
                                        </columns>
                                     </TableView>
                                  </children>
