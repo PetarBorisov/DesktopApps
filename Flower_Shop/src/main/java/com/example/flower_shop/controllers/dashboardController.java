@@ -388,7 +388,11 @@ public dashboardController(){}
                     prepare.setString(1, aviailableFlowers_flowerID.getText());
                     prepare.setString(2, aviailableFlowers_flowerName.getText());
                     prepare.setString(3, (String) aviailableFlowers_status.getSelectionModel().getSelectedItem());
-                    prepare.setString(4, aviailableFlowers_price.getText());
+                    prepare.setString(4, aviailableFlowers_price.getText().contains(",")
+                           ? aviailableFlowers_price.getText().replace(",", ".")
+                           : aviailableFlowers_price.getText());
+
+
 
                     String uri = GetData.path;
                     uri = uri.replace("\\", "\\\\");
@@ -892,7 +896,7 @@ public dashboardController(){}
     }
     public void purchaseFlowerId() {
 
-        String sql = "SELECT status, flowerId FROM flowers WHERE status = 'Available'";
+        String sql = "SELECT status, flowerId FROM flowers WHERE status = 'Налично'";
 
         connect = Database.connectDb();
 
