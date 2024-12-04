@@ -261,7 +261,7 @@
 
                                        </children>
                                     </AnchorPane>
-                                    <TableView fx:id="purchase_tableView" layoutX="6.0" layoutY="195.0" prefHeight="306.0" prefWidth="862.0" visible="false">
+                                    <TableView fx:id="purchase_tableView" layoutX="6.0" layoutY="195.0" prefHeight="306.0" prefWidth="862.0">
                                        <columns>
                                           <TableColumn fx:id="purchase_col_flowerID" prefWidth="86.40000915527344" text="Цвете ID" />
                                           <TableColumn fx:id="purchase_col_flowerName" prefWidth="315.1999816894531" text="Име на Цвете" />
