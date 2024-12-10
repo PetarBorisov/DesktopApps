@@ -669,7 +669,7 @@ public dashboardController(){}
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR MESSAGE");
             alert.setHeaderText(null);
-            alert.setContentText("Please select CLIENT!");
+            alert.setContentText("Моля първо изберете клиент!");
             alert.showAndWait();
             return;
         }
@@ -755,7 +755,7 @@ public dashboardController(){}
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("ERROR MESSAGE");
                 alert.setHeaderText(null);
-                alert.setContentText("Please select CLIENT !");
+                alert.setContentText("Моля първо изберете клиент!");
                 alert.showAndWait();
             } else {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
