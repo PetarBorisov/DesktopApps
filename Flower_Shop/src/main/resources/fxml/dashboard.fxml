@@ -328,11 +328,11 @@
                                     <FontAwesomeIcon glyphName="SEARCH" layoutX="21.0" layoutY="31.0" />
                                     <TableView fx:id="client_tableView" layoutX="14.0" layoutY="56.0" onMouseClicked="#selectClient" prefHeight="446.0" prefWidth="636.0">
                                        <columns>
-                                          <TableColumn fx:id="client_col_id" prefWidth="36.79998779296875" text="ID" />
-                                          <TableColumn fx:id="client_col_firstName" prefWidth="145.59994506835938" text="First Name" />
-                                          <TableColumn fx:id="client_col_fathersName" prefWidth="162.4000244140625" text="Fathers Name" />
-                                          <TableColumn fx:id="client_col_lastName" minWidth="0.0" prefWidth="176.800048828125" text="Last Name" />
-                                          <TableColumn fx:id="client_col_phoneNumber" prefWidth="115.199951171875" text="Phone Number" />
+                                          <TableColumn fx:id="client_col_id" prefWidth="36.79998779296875" text="ИД" />
+                                          <TableColumn fx:id="client_col_firstName" prefWidth="145.59994506835938" text="Име - Фирма/Човек" />
+                                          <TableColumn fx:id="client_col_fathersName" prefWidth="162.4000244140625" text="Адрес" />
+                                          <TableColumn fx:id="client_col_lastName" minWidth="0.0" prefWidth="176.800048828125" text="ЕИК" />
+                                          <TableColumn fx:id="client_col_phoneNumber" prefWidth="115.199951171875" text="Тел.Номер" />
                                        </columns>
                                     </TableView>
                                  </children>
