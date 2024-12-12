@@ -455,7 +455,7 @@ public dashboardController(){}
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation Message");
                 alert.setHeaderText(null);
-                alert.setContentText(" ID:" + aviailableFlowers_flowerID.getText() + "?");
+                alert.setContentText("Наистина ли искате да упдейтнете цвете с ИД:" + aviailableFlowers_flowerID.getText() + "?");
                 Optional<ButtonType> option = alert.showAndWait();
 
                 if (option.get().equals(ButtonType.OK)) {
@@ -465,7 +465,7 @@ public dashboardController(){}
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information Message");
                     alert.setHeaderText(null);
-                    alert.setContentText("Successfully Updated!");
+                    alert.setContentText("Successfully Upda!");
                     alert.showAndWait();
 
                     // Show Updated Tableview
