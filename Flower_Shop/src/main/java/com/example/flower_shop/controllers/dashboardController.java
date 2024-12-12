@@ -465,7 +465,7 @@ public dashboardController(){}
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information Message");
                     alert.setHeaderText(null);
-                    alert.setContentText("Successfully Upda!");
+                    alert.setContentText("Успешно добавяне!");
                     alert.showAndWait();
 
                     // Show Updated Tableview
