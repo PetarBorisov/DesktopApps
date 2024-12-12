@@ -449,13 +449,13 @@ public dashboardController(){}
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Please fill all blank fields");
+                alert.setContentText("Моля попълнете всички полета!");
                 alert.showAndWait();
             }else {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to UPDATE Flower ID:" + aviailableFlowers_flowerID.getText() + "?");
+                alert.setContentText(" ID:" + aviailableFlowers_flowerID.getText() + "?");
                 Optional<ButtonType> option = alert.showAndWait();
 
                 if (option.get().equals(ButtonType.OK)) {
