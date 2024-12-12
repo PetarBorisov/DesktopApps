@@ -497,7 +497,7 @@ public dashboardController(){}
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Please fill all blank fields");
+                alert.setContentText("Моля попълнете всички полета!");
                 alert.showAndWait();
             }else {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
