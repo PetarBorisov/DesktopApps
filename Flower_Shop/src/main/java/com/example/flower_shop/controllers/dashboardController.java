@@ -694,7 +694,7 @@ public dashboardController(){}
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Please choose the product first");
+                alert.setContentText("Моля първо изберете продукт!");
                 alert.showAndWait();
             } else {
                 double priceData = 0;
