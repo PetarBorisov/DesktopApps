@@ -748,7 +748,7 @@ public dashboardController(){}
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("ERROR MESSAGE");
                 alert.setHeaderText(null);
-                alert.setContentText("Something went wrong :3");
+                alert.setContentText("Нещо не е наред!");
                 alert.showAndWait();
 
             } else if (purchase_clientData.getSelectionModel().getSelectedItem() == null) {
@@ -761,7 +761,7 @@ public dashboardController(){}
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation MESSAGE");
                 alert.setHeaderText(null);
-                alert.setContentText("Are you sure?");
+                alert.setContentText("Сигурни ли сте?");
                 Optional<ButtonType> option = alert.showAndWait();
 
                 if (option.get().equals(ButtonType.OK)) {
@@ -836,7 +836,7 @@ public dashboardController(){}
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Warning Message");
                         alert.setHeaderText(null);
-                        alert.setContentText("No items found to delete.");
+                        alert.setContentText("Няма открити елементи за изтриване.");
                         alert.showAndWait();
                     }
                 } else {
