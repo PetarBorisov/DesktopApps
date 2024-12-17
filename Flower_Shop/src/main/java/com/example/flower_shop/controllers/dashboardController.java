@@ -365,7 +365,7 @@ public dashboardController(){}
                     || GetData.path == null || GetData.path == "") {
 
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
+                alert.setTitle("Съобщение за Грешка");
                 alert.setHeaderText(null);
                 alert.setContentText("Моля попълнете всички полета!");
                 alert.showAndWait();
@@ -379,7 +379,7 @@ public dashboardController(){}
 
                 if (result.next()){
                     alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error Message");
+                    alert.setTitle("Съобщение за Грешка");
                     alert.setHeaderText(null);
                     alert.setContentText("Flower ID" + aviailableFlowers_flowerID.getText() + "was already exist !" );
                     alert.showAndWait();
@@ -406,7 +406,7 @@ public dashboardController(){}
                     prepare.executeUpdate();
 
                     alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
+                    alert.setTitle("Информиращо съобщение");
                     alert.setHeaderText(null);
                     alert.setContentText("Успешно добавяне!");
                     alert.showAndWait();
@@ -447,7 +447,7 @@ public dashboardController(){}
                     || uri == null || uri == "") {
 
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
+                alert.setTitle("Съобщение за Грешка");
                 alert.setHeaderText(null);
                 alert.setContentText("Моля попълнете всички полета!");
                 alert.showAndWait();
