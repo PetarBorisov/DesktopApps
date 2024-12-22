@@ -501,7 +501,7 @@ public dashboardController(){}
                 alert.showAndWait();
             }else {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Message");
+                alert.setTitle("Потвърждаващо съобщение");
                 alert.setHeaderText(null);
                 alert.setContentText("Наистина ли искате да ИЗТРИЕТЕ цвете с ИД:" + aviailableFlowers_flowerID.getText() + "?");
                 Optional<ButtonType> option = alert.showAndWait();
@@ -511,7 +511,7 @@ public dashboardController(){}
                     statement.executeUpdate(sql);
 
                     alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
+                    alert.setTitle("Информиращо Съобщение");
                     alert.setHeaderText(null);
                     alert.setContentText("Успешно ИЗТРИВАНЕ!");
                     alert.showAndWait();
@@ -667,7 +667,7 @@ public dashboardController(){}
 
         if (purchase_clientData.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR MESSAGE");
+            alert.setTitle("Съобщение за грешка");
             alert.setHeaderText(null);
             alert.setContentText("Моля първо изберете клиент!");
             alert.showAndWait();
