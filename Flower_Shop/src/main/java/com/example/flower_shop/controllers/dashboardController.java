@@ -828,22 +828,22 @@ public dashboardController(){}
 
                     if (rowsDeleted > 0) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Information Message");
+                        alert.setTitle("Информиращо съобщение");
                         alert.setHeaderText(null);
                       //  alert.setContentText("Successfully deleted the last item from the cart!");
                       //  alert.showAndWait();
                     } else {
                         Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Warning Message");
+                        alert.setTitle("Съобщение за грешка");
                         alert.setHeaderText(null);
                         alert.setContentText("Няма открити елементи за изтриване.");
                         alert.showAndWait();
                     }
                 } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Warning Message");
+                    alert.setTitle("Съобщение за грешка");
                     alert.setHeaderText(null);
-                    alert.setContentText("No items found in the cart.");
+                    alert.setContentText("НЕ са открити продукти в кличката!");
                     alert.showAndWait();
                 }
             }
