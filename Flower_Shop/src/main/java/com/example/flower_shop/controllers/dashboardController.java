@@ -692,7 +692,7 @@ public dashboardController(){}
                     || purchase_flowerName.getSelectionModel().getSelectedItem() == null
                     || qty == 0) {
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
+                alert.setTitle("Съобщение за грешка");
                 alert.setHeaderText(null);
                 alert.setContentText("Моля първо изберете продукт!");
                 alert.showAndWait();
@@ -746,20 +746,20 @@ public dashboardController(){}
 
             if (totalP == 0) {
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("ERROR MESSAGE");
+                alert.setTitle("Съобщение за грешка");
                 alert.setHeaderText(null);
                 alert.setContentText("Нещо не е наред!");
                 alert.showAndWait();
 
             } else if (purchase_clientData.getSelectionModel().getSelectedItem() == null) {
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("ERROR MESSAGE");
+                alert.setTitle("Съобщение за грешка");
                 alert.setHeaderText(null);
                 alert.setContentText("Моля първо изберете клиент!");
                 alert.showAndWait();
             } else {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation MESSAGE");
+                alert.setTitle("Потвърждаващо съобщение");
                 alert.setHeaderText(null);
                 alert.setContentText("Сигурни ли сте?");
                 Optional<ButtonType> option = alert.showAndWait();
