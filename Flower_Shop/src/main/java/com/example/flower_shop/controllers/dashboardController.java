@@ -1223,9 +1223,9 @@ public dashboardController(){}
 
             if (result.next()) {
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("");
+                alert.setTitle("Съобщение за грешка");
                 alert.setHeaderText(null);
-                alert.setContentText("Client ID" + client_id.getText() + "was already exist !");
+                alert.setContentText("Client ID" + client_id.getText() + "вече съществува!");
                 alert.showAndWait();
             }else {
 
@@ -1251,9 +1251,9 @@ public dashboardController(){}
                 prepare.executeUpdate();
 
                 alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Information Message");
+                alert.setTitle("Информиращо съобщение");
                 alert.setHeaderText(null);
-                alert.setContentText("Successfully Added!");
+                alert.setContentText("Успешно добавяне!");
                 alert.showAndWait();
 
                 //Show Updated Table
