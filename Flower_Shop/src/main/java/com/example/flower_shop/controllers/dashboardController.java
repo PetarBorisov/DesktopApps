@@ -851,14 +851,14 @@ public dashboardController(){}
         } catch (SQLException e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Database Error");
+            alert.setTitle("Грешка с базата данни!");
             alert.setHeaderText(null);
-            alert.setContentText("An error occurred while trying to delete the item: " + e.getMessage());
+            alert.setContentText("Възникна грешка при опит за изтриване на елемента: " + e.getMessage());
             alert.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Unexpected Error");
+            alert.setTitle("Неочаквана грешка");
             alert.setHeaderText(null);
             alert.setContentText("An unexpected error occurred: " + e.getMessage());
             alert.showAndWait();
@@ -1208,9 +1208,9 @@ public dashboardController(){}
                     || client_phoneNumber.getText().isEmpty()) {
 
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
+                alert.setTitle("Съобщение за грешка");
                 alert.setHeaderText(null);
-                alert.setContentText("Please fill all fields");
+                alert.setContentText("Моля попълнете всички полета");
                 alert.showAndWait();
 
             }else {
@@ -1223,7 +1223,7 @@ public dashboardController(){}
 
             if (result.next()) {
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
+                alert.setTitle("");
                 alert.setHeaderText(null);
                 alert.setContentText("Client ID" + client_id.getText() + "was already exist !");
                 alert.showAndWait();
