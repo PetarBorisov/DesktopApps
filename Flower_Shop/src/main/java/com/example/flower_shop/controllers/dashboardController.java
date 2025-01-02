@@ -1278,9 +1278,9 @@ public dashboardController(){}
             // Проверка дали полето ID е попълнено
             if (client_id.getText().isEmpty()) {
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
+                alert.setTitle("Съобщение за грешка");
                 alert.setHeaderText(null);
-                alert.setContentText("ID field cannot be empty");
+                alert.setContentText("Полето за ИД не може да бъде празно!");
                 alert.showAndWait();
                 return;
             }
@@ -1292,9 +1292,9 @@ public dashboardController(){}
                     client_phoneNumber.getText().isEmpty()) {
 
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
+                alert.setTitle("Съобщение за грешка");
                 alert.setHeaderText(null);
-                alert.setContentText("Please fill all blank fields");
+                alert.setContentText("Моля попълнете всички полета!");
                 alert.showAndWait();
                 return;
             }
