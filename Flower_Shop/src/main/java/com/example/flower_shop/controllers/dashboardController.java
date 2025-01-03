@@ -1357,9 +1357,9 @@ public dashboardController(){}
 
             if (client_id.getText().isEmpty()) {
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
+                alert.setTitle("Съобщение за грешка");
                 alert.setHeaderText(null);
-                alert.setContentText("Please enter a Client ID to delete.");
+                alert.setContentText("Моля въведете ИД то на клиента който желаете да изтриете!");
                 alert.showAndWait();
                 return;
             }
