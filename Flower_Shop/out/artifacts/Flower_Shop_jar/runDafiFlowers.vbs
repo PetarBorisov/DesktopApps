@@ -1,0 +1,2 @@
+Set WshShell = CreateObject("WScript.Shell")
+WshShell.Run """C:\Program Files\Java\jdk-22\bin\java.exe"" --module-path ""C:\Program Files\Java\JavaFx\javafx-sdk-22.0.2\lib"" --add-modules javafx.controls,javafx.fxml -jar ""C:\Users\Petyr Borisov\Desktop\Flower_Shop\out\artifacts\Flower_Shop_jar\Flower_Shop.jar""", 0, False
