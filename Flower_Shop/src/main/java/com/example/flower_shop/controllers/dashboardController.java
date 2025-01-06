@@ -1365,9 +1365,9 @@ public dashboardController(){}
             }
 
             alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation Message");
+            alert.setTitle("Потвърждаващо съобщение");
             alert.setHeaderText(null);
-            alert.setContentText("Are you sure you want to DELETE Client ID: " + client_id.getText() + "?");
+            alert.setContentText("Сигурни ли сте че искате да изтриете клиент с ИД: " + client_id.getText() + "?");
             Optional<ButtonType> option = alert.showAndWait();
 
             if (option.isPresent() && option.get().equals(ButtonType.OK)) {
