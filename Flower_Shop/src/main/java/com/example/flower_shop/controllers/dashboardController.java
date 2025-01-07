@@ -1381,9 +1381,9 @@ public dashboardController(){}
 
                 if (rowsDeleted > 0) {
                     alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
+                    alert.setTitle("Информиращо Съобщение");
                     alert.setHeaderText(null);
-                    alert.setContentText("Successfully Deleted!");
+                    alert.setContentText("Успешно ИЗТРИВАНЕ!");
                     alert.showAndWait();
                 } else {
                     alert = new Alert(Alert.AlertType.ERROR);
