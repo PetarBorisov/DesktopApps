@@ -1387,9 +1387,9 @@ public dashboardController(){}
                     alert.showAndWait();
                 } else {
                     alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error Message");
+                    alert.setTitle("Съобщение за грешка");
                     alert.setHeaderText(null);
-                    alert.setContentText("No client found with ID: " + client_id.getText());
+                    alert.setContentText("Не е открит клиент с ИД : " + client_id.getText());
                     alert.showAndWait();
                 }
 
