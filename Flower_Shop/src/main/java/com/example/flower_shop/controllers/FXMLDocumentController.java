@@ -70,9 +70,9 @@ public class FXMLDocumentController implements Initializable {
 
             if (username.getText().isEmpty() || password.getText().isEmpty()) {
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
+                alert.setTitle("Съобщение за грешка");
                 alert.setHeaderText(null);
-                alert.setContentText("Please fill all blank fields");
+                alert.setContentText("Моля попълнете всички полета!");
                 alert.showAndWait();
             } else {
                 if (result.next()) {
@@ -105,9 +105,9 @@ public class FXMLDocumentController implements Initializable {
 
                 } else {
                     alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error Message");
+                    alert.setTitle("Съобщение за грешка");
                     alert.setHeaderText(null);
-                    alert.setContentText("Wrong Username/Password");
+                    alert.setContentText("Грешен Потребител/Парола!");
                     alert.showAndWait();
                 }
             }
