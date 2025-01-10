@@ -1614,7 +1614,7 @@ public dashboardController(){}
         if (receiptText.isEmpty()) {
 
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning");
+            alert.setTitle("Внимание!");
             alert.setHeaderText(null);
             alert.setContentText("Няма разписка за печат.");
             alert.showAndWait();
@@ -1683,9 +1683,9 @@ public dashboardController(){}
 
         try {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation message");
+            alert.setTitle("Потвърждаващо съобщение");
             alert.setHeaderText(null);
-            alert.setContentText("Are you sure you want to logout");
+            alert.setContentText("Сигурни ли сте че искате да излезете ?");
             Optional<ButtonType> option = alert.showAndWait();
 
             if (option.get().equals(ButtonType.OK)) {
