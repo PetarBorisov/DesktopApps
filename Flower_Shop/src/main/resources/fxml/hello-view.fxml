@@ -22,14 +22,14 @@
                </children></AnchorPane>
             <AnchorPane layoutX="333.0" layoutY="-8.0" prefHeight="458.0" prefWidth="330.0" styleClass="right-form" stylesheets="@../css/LoginDesign.css">
                <children>
-                  <Label layoutX="133.0" layoutY="136.0" text="Sign in" textFill="#941515">
+                  <Label layoutX="133.0" layoutY="136.0" text="Влизане" textFill="#941515">
                      <font>
                         <Font name="Arial Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="username" layoutX="53.0" layoutY="198.0" onAction="#login" prefHeight="30.0" prefWidth="220.0" promptText="Username" styleClass="text-field" stylesheets="@../css/LoginDesign.css" />
-                  <PasswordField fx:id="password" layoutX="53.0" layoutY="239.0" prefHeight="30.0" prefWidth="220.0" promptText="Password" styleClass="text-field" stylesheets="@../css/LoginDesign.css" />
-                  <Button fx:id="loginBtn" layoutX="55.0" layoutY="358.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="220.0" styleClass="login-btn" stylesheets="@../css/LoginDesign.css" text="Login" textFill="#260703" />
+                  <TextField fx:id="username" layoutX="53.0" layoutY="198.0" onAction="#login" prefHeight="30.0" prefWidth="220.0" promptText="Потребител" styleClass="text-field" stylesheets="@../css/LoginDesign.css" />
+                  <PasswordField fx:id="password" layoutX="53.0" layoutY="239.0" prefHeight="30.0" prefWidth="220.0" promptText="Парола" styleClass="text-field" stylesheets="@../css/LoginDesign.css" />
+                  <Button fx:id="loginBtn" layoutX="55.0" layoutY="358.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="220.0" styleClass="login-btn" stylesheets="@../css/LoginDesign.css" text="Вход" textFill="#260703" />
                   <Button fx:id="close" layoutX="273.0" layoutY="14.0" mnemonicParsing="false" onAction="#close" prefHeight="26.0" prefWidth="42.0" styleClass="close" stylesheets="@../css/LoginDesign.css" text="X" AnchorPane.rightAnchor="10.200000000000045" AnchorPane.topAnchor="14.0" />
                </children>
             </AnchorPane>
