@@ -1,6 +1,7 @@
 package com.example.flower_shop.controllers;
 
 import com.example.flower_shop.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -30,6 +31,7 @@ import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.sql.Date;
@@ -1679,49 +1681,56 @@ public dashboardController(){}
     private double x = 0;
     private double y = 0;
 
-    public void logout(){
-
+    public void logout() {
         try {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Потвърждаващо съобщение");
-            alert.setHeaderText(null);
-            alert.setContentText("Сигурни ли сте че искате да излезете ?");
-            Optional<ButtonType> option = alert.showAndWait();
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Потвърждаващо съобщение");
+                alert.setHeaderText(null);
+                alert.setContentText("Сигурни ли сте че искате да излезете ?");
 
-            if (option.get().equals(ButtonType.OK)) {
+                // Показване на Alert и обработка на резултата
+                Optional<ButtonType> option = alert.showAndWait();
+                if (option.isPresent() && option.get() == ButtonType.OK) {
+                    // Скриване на текущия прозорец
+                    logoutBtn.getScene().getWindow().hide();
 
-                logoutBtn.getScene().getWindow().hide();
+                    try {
+                        // Зареждане на новия изглед
+                        Parent root = FXMLLoader.load(getClass().getResource("/fxml/hello-view.fxml"));
+                        Scene scene = new Scene(root);
+                        Stage stage = new Stage();
 
-                Parent root = FXMLLoader.load(getClass().getResource("/fxml/hello-view.fxml"));
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
+                        // Логика за преместим прозорец
+                        root.setOnMousePressed((MouseEvent event) -> {
+                            x = event.getSceneX();
+                            y = event.getSceneY();
+                        });
 
-                root.setOnMousePressed((MouseEvent event) -> {
-                    x = event.getSceneX();
-                    y = event.getSceneY();
-                });
+                        root.setOnMouseDragged((MouseEvent event) -> {
+                            stage.setX(event.getScreenX() - x);
+                            stage.setY(event.getScreenY() - y);
+                            stage.setOpacity(.8); // Прозрачност при местене
+                        });
 
-                root.setOnMouseDragged((MouseEvent event) ->{
-                    stage.setX(event.getScreenX() - x);
-                    stage.setY(event.getScreenY() - y);
+                        root.setOnMouseReleased((MouseEvent event) -> {
+                            stage.setOpacity(1); // Възстановяване на прозрачността
+                        });
 
-                    stage.setOpacity(.8);
-                });
+                        // Задаване на прозрачен стил
+                        stage.initStyle(StageStyle.TRANSPARENT);
 
-                root.setOnMouseReleased((MouseEvent event) -> {
-                    stage.setOpacity(1);
-                });
-
-                stage.initStyle(StageStyle.TRANSPARENT);
-
-                stage.setScene(scene);
-                stage.show();
-            }
-
-        }catch (Exception e){
+                        // Задаване на сцената и показване на новия прозорец
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void close(){
