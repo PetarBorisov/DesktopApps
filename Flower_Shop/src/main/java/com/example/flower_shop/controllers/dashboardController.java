@@ -1689,19 +1689,19 @@ public dashboardController(){}
                 alert.setHeaderText(null);
                 alert.setContentText("Сигурни ли сте че искате да излезете ?");
 
-                // Показване на Alert и обработка на резултата
+
                 Optional<ButtonType> option = alert.showAndWait();
                 if (option.isPresent() && option.get() == ButtonType.OK) {
-                    // Скриване на текущия прозорец
+
                     logoutBtn.getScene().getWindow().hide();
 
                     try {
-                        // Зареждане на новия изглед
+
                         Parent root = FXMLLoader.load(getClass().getResource("/fxml/hello-view.fxml"));
                         Scene scene = new Scene(root);
                         Stage stage = new Stage();
 
-                        // Логика за преместим прозорец
+
                         root.setOnMousePressed((MouseEvent event) -> {
                             x = event.getSceneX();
                             y = event.getSceneY();
@@ -1710,17 +1710,17 @@ public dashboardController(){}
                         root.setOnMouseDragged((MouseEvent event) -> {
                             stage.setX(event.getScreenX() - x);
                             stage.setY(event.getScreenY() - y);
-                            stage.setOpacity(.8); // Прозрачност при местене
+                            stage.setOpacity(.8);
                         });
 
                         root.setOnMouseReleased((MouseEvent event) -> {
-                            stage.setOpacity(1); // Възстановяване на прозрачността
+                            stage.setOpacity(1);
                         });
 
-                        // Задаване на прозрачен стил
+
                         stage.initStyle(StageStyle.TRANSPARENT);
 
-                        // Задаване на сцената и показване на новия прозорец
+
                         stage.setScene(scene);
                         stage.show();
                     } catch (IOException e) {
