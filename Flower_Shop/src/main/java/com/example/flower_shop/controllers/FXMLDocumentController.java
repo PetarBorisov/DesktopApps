@@ -27,6 +27,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class FXMLDocumentController implements Initializable {
@@ -79,11 +80,11 @@ public class FXMLDocumentController implements Initializable {
 
                     GetData.username = username.getText();
 
-                    // Затваряне на текущия прозорец и отваряне на новия
+                    // Close current window and open the new
                     Stage currentStage = (Stage) loginBtn.getScene().getWindow();
                     currentStage.close();
 
-                    Parent root = FXMLLoader.load(getClass().getResource("/fxml/dashboard.fxml"));
+                    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/dashboard.fxml")));
                     Stage stage = new Stage();
                     Scene scene = new Scene(root);
 
