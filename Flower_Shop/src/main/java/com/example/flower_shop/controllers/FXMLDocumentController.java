@@ -124,7 +124,7 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Съществуващото събитие за бутон за вход
+        
         loginBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -133,7 +133,7 @@ public class FXMLDocumentController implements Initializable {
         });
 
         username.setOnAction(event -> login());
-        
+
         password.setOnAction(event -> login());
 
     }
