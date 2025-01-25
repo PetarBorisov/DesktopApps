@@ -1683,53 +1683,62 @@ public dashboardController(){}
 
     public void logout() {
         try {
-            Platform.runLater(() -> {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Потвърждаващо съобщение");
-                alert.setHeaderText(null);
-                alert.setContentText("Сигурни ли сте че искате да излезете ?");
+            // Създаване на диалог за потвърждение
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Потвърждаващо съобщение");
+            alert.setHeaderText(null);
+            alert.setContentText("Сигурни ли сте, че искате да излезете?");
 
+            // Показване на диалога и чакане за отговор
+            Optional<ButtonType> option = alert.showAndWait();
+            if (option.isPresent() && option.get() == ButtonType.OK) {
+                // Затваряне на текущия прозорец
+                logoutBtn.getScene().getWindow().hide();
 
-                Optional<ButtonType> option = alert.showAndWait();
-                if (option.isPresent() && option.get() == ButtonType.OK) {
+                try {
+                    // Зареждане на новия FXML файл
+                    Parent root = FXMLLoader.load(getClass().getResource("/fxml/hello-view.fxml"));
 
-                    logoutBtn.getScene().getWindow().hide();
+                    // Създаване на нова сцена и нов прозорец
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
 
-                    try {
+                    // Управление на плъзгане на прозореца
+                    root.setOnMousePressed(event -> {
+                        x = event.getSceneX();
+                        y = event.getSceneY();
+                    });
 
-                        Parent root = FXMLLoader.load(getClass().getResource("/fxml/hello-view.fxml"));
-                        Scene scene = new Scene(root);
-                        Stage stage = new Stage();
+                    root.setOnMouseDragged(event -> {
+                        stage.setX(event.getScreenX() - x);
+                        stage.setY(event.getScreenY() - y);
+                        stage.setOpacity(0.8); // Прозрачен по време на плъзгане
+                    });
 
+                    root.setOnMouseReleased(event -> stage.setOpacity(1.0)); // Възстановяване на непрозрачност
 
-                        root.setOnMousePressed((MouseEvent event) -> {
-                            x = event.getSceneX();
-                            y = event.getSceneY();
-                        });
-
-                        root.setOnMouseDragged((MouseEvent event) -> {
-                            stage.setX(event.getScreenX() - x);
-                            stage.setY(event.getScreenY() - y);
-                            stage.setOpacity(.8);
-                        });
-
-                        root.setOnMouseReleased((MouseEvent event) -> {
-                            stage.setOpacity(1);
-                        });
-
-
-                        stage.initStyle(StageStyle.TRANSPARENT);
-
-
-                        stage.setScene(scene);
-                        stage.show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    // Задаване на стил и показване на сцената
+                    stage.initStyle(StageStyle.TRANSPARENT);
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException e) {
+                    // Обработване на грешка при зареждане на FXML файла
+                    e.printStackTrace();
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Грешка");
+                    errorAlert.setHeaderText("Неуспешно зареждане");
+                    errorAlert.setContentText("Имаше проблем при зареждането на екрана.");
+                    errorAlert.show();
                 }
-            });
+            }
         } catch (Exception e) {
+            // Улавяне на неочаквани грешки
             e.printStackTrace();
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Грешка");
+            errorAlert.setHeaderText("Неочаквана грешка");
+            errorAlert.setContentText("Възникна проблем: " + e.getMessage());
+            errorAlert.show();
         }
     }
 
