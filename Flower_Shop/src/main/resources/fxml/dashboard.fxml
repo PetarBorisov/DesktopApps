@@ -22,9 +22,9 @@
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.flower_shop.controllers.dashboardController">
    <children>
-      <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/dashboardDesign.css">
          <children>
-            <BorderPane prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <BorderPane prefHeight="600.0" prefWidth="1100.0" stylesheets="@../css/dashboardDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <top>
                   <AnchorPane prefHeight="40.0" prefWidth="1100.0" styleClass="semi-top-form" stylesheets="@../css/dashboardDesign.css" BorderPane.alignment="CENTER">
                      <children>
@@ -81,9 +81,9 @@
                   </AnchorPane>
                </left>
                <center>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/dashboardDesign.css" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane fx:id="home_form" layoutX="159.0" layoutY="160.0" prefHeight="537.6" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="home_form" layoutX="159.0" layoutY="160.0" prefHeight="537.6" prefWidth="900.0" stylesheets="@../css/dashboardDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="166.0" prefWidth="878.0" stylesheets="@../css/dashboardDesign.css">
                                  <styleClass>
@@ -156,7 +156,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="availableFlowers_form" layoutX="77.0" layoutY="102.0" prefHeight="537.6" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="availableFlowers_form" layoutX="77.0" layoutY="102.0" prefHeight="537.6" prefWidth="900.0" stylesheets="@../css/dashboardDesign.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="13.0" prefHeight="510.0" prefWidth="200.0" stylesheets="@../css/dashboardDesign.css">
                                  <styleClass>
@@ -224,7 +224,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="purchase_form" layoutX="65.0" layoutY="82.0" prefHeight="537.6" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="purchase_form" layoutX="65.0" layoutY="82.0" prefHeight="537.6" prefWidth="900.0" stylesheets="@../css/dashboardDesign.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="508.0" prefWidth="874.0" stylesheets="@../css/dashboardDesign.css">
                                  <styleClass>
@@ -273,8 +273,8 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane layoutX="76.0" layoutY="60.0" prefHeight="537.6" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <AnchorPane fx:id="clients_form" layoutX="2.0" prefHeight="537.6" prefWidth="900.0" visible="false">
+                        <AnchorPane layoutX="76.0" layoutY="60.0" prefHeight="537.6" prefWidth="900.0" stylesheets="@../css/dashboardDesign.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <AnchorPane fx:id="clients_form" layoutX="2.0" prefHeight="537.6" prefWidth="900.0" stylesheets="@../css/dashboardDesign.css" visible="false">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="13.0" prefHeight="510.0" prefWidth="200.0" stylesheets="@../css/dashboardDesign.css">
                                  <styleClass>
