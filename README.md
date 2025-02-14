@@ -1,1 +1,1 @@
-# Under construction !
+This is a desktop program that I wrote for a friend of mine. It is about a business related to the production and sale of flowers. It uses Java FX technology in conjunction with Scene Builder. The goal of the program is not to write cash receipts manually, but to enter values ​​and finally print the information on a physical sheet. I used MySQL as a database. Regarding functions, there is a function for creating items, adding customers, making an order/purchase and printing, etc.
